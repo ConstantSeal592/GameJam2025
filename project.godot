@@ -11,9 +11,23 @@ config_version=5
 [application]
 
 config/name="GameJam2025"
+run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/mode=2
 
 [dotnet]
 
 project/assembly_name="GameJam2025"
+
+[layer_names]
+
+2d_render/layer_1="buildings"
+2d_render/layer_2="ground"
+2d_render/layer_3="pipes"
+2d_render/layer_4="underground"
