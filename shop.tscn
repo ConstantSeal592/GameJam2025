@@ -1,3 +1,136 @@
-[gd_scene format=3 uid="uid://ciewynib14ctu"]
+[gd_scene load_steps=3 format=3 uid="uid://ciewynib14ctu"]
+
+[ext_resource type="Script" uid="uid://ctcghc2o3nywu" path="res://Shop.cs" id="1_viryw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rplqf"]
+bg_color = Color(0.337255, 0.682353, 0.490196, 0.788235)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
 
 [node name="Shop" type="CanvasLayer"]
+script = ExtResource("1_viryw")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -934.0
+offset_top = 23.0
+offset_right = 929.0
+offset_bottom = 841.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rplqf")
+
+[node name="item3" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 344.0
+offset_top = -462.0
+offset_right = 511.0
+offset_bottom = -335.0
+grow_vertical = 0
+text = "Water Treatment Plant upgrades"
+autowrap_mode = 3
+
+[node name="item2" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 952.0
+offset_top = -462.0
+offset_right = 1119.0
+offset_bottom = -335.0
+grow_vertical = 0
+text = "Upgrade max pipe level
+(£ )"
+autowrap_mode = 3
+
+[node name="item4" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 543.0
+offset_top = -378.0
+offset_right = 710.0
+offset_bottom = -251.0
+grow_vertical = 0
+text = " upgrade WTP Capacity 
+(£ )"
+autowrap_mode = 3
+
+[node name="item6" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 543.0
+offset_top = -572.0
+offset_right = 710.0
+offset_bottom = -445.0
+grow_vertical = 0
+text = " upgrade WTP  speed
+(£ )"
+autowrap_mode = 3
+
+[node name="item9" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 748.0
+offset_top = -572.0
+offset_right = 915.0
+offset_bottom = -445.0
+grow_vertical = 0
+text = " upgrade WTP efficiency 
+(£ )"
+autowrap_mode = 3
+
+[node name="item10" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 748.0
+offset_top = -378.0
+offset_right = 915.0
+offset_bottom = -251.0
+grow_vertical = 0
+text = "upgrade WTP           I/O
+(£ )"
+autowrap_mode = 3
+
+[node name="item11" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 1637.0
+offset_top = -560.0
+offset_right = 1789.0
+offset_bottom = -203.0
+grow_vertical = 0
+text = "top up water 
+(£ )"
+autowrap_mode = 3
+
+[node name="close" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 1765.0
+offset_top = -791.0
+offset_right = 1828.0
+offset_bottom = -730.0
+grow_vertical = 0
+text = "X"
+autowrap_mode = 3
+
+[connection signal="pressed" from="Panel/close" to="." method="_on_close_pressed"]

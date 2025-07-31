@@ -1,0 +1,134 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctrswalaspky0"]
+
+[ext_resource type="Script" uid="uid://bkc4mkv4elue7" path="res://Hud.cs" id="1_37p78"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n2snw"]
+bg_color = Color(0.524683, 0.645512, 0.423886, 1)
+draw_center = false
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.113725, 0.8, 0.152941, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_37p78")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -960.0
+offset_top = -212.0
+offset_right = 960.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.415686, 0.835294, 0.52549, 0.87451)
+
+[node name="Button" type="Button" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 36.0
+offset_top = -165.0
+offset_right = 373.0
+offset_bottom = -38.0
+grow_vertical = 0
+text = "SHOP"
+
+[node name="Label" type="Label" parent="ColorRect"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -389.0
+offset_top = -85.0
+offset_right = -101.0
+offset_bottom = -12.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 38
+theme_override_styles/normal = SubResource("StyleBoxFlat_n2snw")
+text = "Quota: "
+vertical_alignment = 1
+
+[node name="item1" type="Button" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 504.0
+offset_top = -165.0
+offset_right = 671.0
+offset_bottom = -38.0
+grow_vertical = 0
+text = "Item 1"
+
+[node name="item2" type="Button" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 763.0
+offset_top = -165.0
+offset_right = 930.0
+offset_bottom = -38.0
+grow_vertical = 0
+text = "item 2"
+
+[node name="item3" type="Button" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 1024.0
+offset_top = -165.0
+offset_right = 1191.0
+offset_bottom = -38.0
+grow_vertical = 0
+text = "item 3"
+
+[node name="item4" type="Button" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 1274.0
+offset_top = -165.0
+offset_right = 1441.0
+offset_bottom = -38.0
+grow_vertical = 0
+text = "item 4"
+
+[node name="Label2" type="Label" parent="ColorRect"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -389.0
+offset_top = -180.0
+offset_right = -101.0
+offset_bottom = -107.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 38
+theme_override_styles/normal = SubResource("StyleBoxFlat_n2snw")
+text = "£"
+vertical_alignment = 1
+
+[connection signal="pressed" from="ColorRect/Button" to="." method="_on_shop_pressed"]
