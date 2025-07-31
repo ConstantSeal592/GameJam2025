@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpxc4lb5ysjp6"]
+
+[ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="1_brrdj"]
+[ext_resource type="Texture2D" uid="uid://dcxfo6vaa8wpk" path="res://art/bent_pipe_1.png" id="2_brrdj"]
+
+[node name="bent_pipe" type="Node2D"]
+
+[node name="ground" parent="." instance=ExtResource("1_brrdj")]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 25.0
+mouse_filter = 2
+texture = ExtResource("2_brrdj")
