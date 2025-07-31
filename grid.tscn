@@ -1,14 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://dhknop32o78b5"]
+[gd_scene load_steps=6 format=3 uid="uid://dhknop32o78b5"]
 
 [ext_resource type="Script" uid="uid://b7lcwk7yjnkjv" path="res://Grid.cs" id="1_ebq2e"]
 [ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="2_65i6o"]
 [ext_resource type="PackedScene" uid="uid://ba37fc6vr363y" path="res://GridObjects/straight_pipe.tscn" id="3_sle3t"]
 [ext_resource type="PackedScene" uid="uid://dpxc4lb5ysjp6" path="res://GridObjects/bent_pipe.tscn" id="4_bghhw"]
+[ext_resource type="PackedScene" uid="uid://dxpwv4wy3xp6f" path="res://GridObjects/main_pump.tscn" id="5_fqc2p"]
 
 [node name="Grid" type="Node"]
 script = ExtResource("1_ebq2e")
-XGridSize = 40
-YGridSize = 40
+XGridSize = 30
+YGridSize = 30
 ground = ExtResource("2_65i6o")
 straight_pipe = ExtResource("3_sle3t")
 bent_pipe = ExtResource("4_bghhw")
+main_pump = ExtResource("5_fqc2p")

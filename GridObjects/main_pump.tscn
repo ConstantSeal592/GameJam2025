@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://dxpwv4wy3xp6f"]
+
+[ext_resource type="Script" uid="uid://m6urhxnstvbd" path="res://MainPump.cs" id="1_e2jbf"]
+[ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="2_bu3hv"]
+[ext_resource type="Texture2D" uid="uid://cqhqhtrkqg6mk" path="res://art/tempPump.png" id="3_pcacq"]
+
+[node name="main_pump" type="Node2D"]
+script = ExtResource("1_e2jbf")
+ground = ExtResource("2_bu3hv")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = 1
+offset_left = -50.0
+offset_right = 250.0
+offset_bottom = 150.0
+texture = ExtResource("3_pcacq")
