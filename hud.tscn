@@ -1,15 +1,29 @@
-[gd_scene load_steps=3 format=3 uid="uid://ctrswalaspky0"]
+[gd_scene load_steps=7 format=3 uid="uid://ctrswalaspky0"]
 
 [ext_resource type="Script" uid="uid://bkc4mkv4elue7" path="res://Hud.cs" id="1_37p78"]
+[ext_resource type="Texture2D" uid="uid://bjf7ftbk8fm82" path="res://art/seamless-wood-texture-5-900x900.webp" id="2_64ctp"]
+[ext_resource type="Theme" uid="uid://baa0ri8nmrw3p" path="res://art/kenneyUI-yellow.tres" id="3_8sq4i"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n2snw"]
-bg_color = Color(0.524683, 0.645512, 0.423886, 1)
-draw_center = false
+bg_color = Color(0.764706, 0.745098, 0.705882, 1)
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color(0.113725, 0.8, 0.152941, 1)
+border_color = Color(0.52549, 0.454902, 0.376471, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_64ctp"]
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8sq4i"]
+bg_color = Color(0.254085, 0.58329, 0.615997, 1)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
@@ -18,20 +32,21 @@ corner_radius_bottom_left = 10
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_37p78")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="border" type="TextureRect" parent="."]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -960.0
-offset_top = -212.0
+offset_top = -206.0
 offset_right = 960.0
 grow_horizontal = 2
 grow_vertical = 0
-color = Color(0.415686, 0.835294, 0.52549, 0.87451)
+texture = ExtResource("2_64ctp")
+expand_mode = 1
 
-[node name="Button" type="Button" parent="ColorRect"]
+[node name="Button" type="Button" parent="border"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -41,9 +56,10 @@ offset_top = -165.0
 offset_right = 373.0
 offset_bottom = -38.0
 grow_vertical = 0
-text = "SHOP"
+theme = ExtResource("3_8sq4i")
+text = "SHOP & STATS"
 
-[node name="Label" type="Label" parent="ColorRect"]
+[node name="Label" type="Label" parent="border"]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 3
@@ -60,58 +76,46 @@ grow_vertical = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 38
 theme_override_styles/normal = SubResource("StyleBoxFlat_n2snw")
-text = "Quota: "
+text = "  Quota: "
 vertical_alignment = 1
 
-[node name="item1" type="Button" parent="ColorRect"]
+[node name="item1" type="Button" parent="border"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 504.0
-offset_top = -165.0
-offset_right = 671.0
-offset_bottom = -38.0
+offset_left = 495.0
+offset_top = -147.0
+offset_right = 662.0
+offset_bottom = -20.0
 grow_vertical = 0
-text = "Item 1"
+text = "Pipe"
 
-[node name="item2" type="Button" parent="ColorRect"]
+[node name="item2" type="Button" parent="border"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 763.0
-offset_top = -165.0
-offset_right = 930.0
-offset_bottom = -38.0
+offset_left = 701.0
+offset_top = -147.0
+offset_right = 868.0
+offset_bottom = -20.0
 grow_vertical = 0
-text = "item 2"
+text = "Waste Pipe"
 
-[node name="item3" type="Button" parent="ColorRect"]
+[node name="PipeList" type="Button" parent="border"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 1024.0
-offset_top = -165.0
-offset_right = 1191.0
-offset_bottom = -38.0
+offset_left = 495.0
+offset_top = -191.0
+offset_right = 662.0
+offset_bottom = -160.0
 grow_vertical = 0
-text = "item 3"
+text = "^"
 
-[node name="item4" type="Button" parent="ColorRect"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 1274.0
-offset_top = -165.0
-offset_right = 1441.0
-offset_bottom = -38.0
-grow_vertical = 0
-text = "item 4"
-
-[node name="Label2" type="Label" parent="ColorRect"]
+[node name="MoneyLabel" type="Label" parent="border"]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 3
@@ -120,15 +124,37 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -389.0
-offset_top = -180.0
+offset_top = -191.0
 offset_right = -101.0
-offset_bottom = -107.0
+offset_bottom = -118.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 38
 theme_override_styles/normal = SubResource("StyleBoxFlat_n2snw")
-text = "£"
+text = "  £"
 vertical_alignment = 1
 
-[connection signal="pressed" from="ColorRect/Button" to="." method="_on_shop_pressed"]
+[node name="Water_bar" type="ProgressBar" parent="border"]
+layout_mode = 0
+offset_left = 926.0
+offset_top = 46.0
+offset_right = 1464.0
+offset_bottom = 157.0
+theme_override_styles/background = SubResource("StyleBoxFlat_64ctp")
+theme_override_styles/fill = SubResource("StyleBoxFlat_8sq4i")
+value = 80.0
+
+[node name="WasteList" type="Button" parent="border"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 701.0
+offset_top = -191.0
+offset_right = 868.0
+offset_bottom = -160.0
+grow_vertical = 0
+text = "^"
+
+[connection signal="pressed" from="border/Button" to="." method="_on_shop_pressed"]

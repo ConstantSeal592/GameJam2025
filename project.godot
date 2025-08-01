@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="GameJam2025"
-run/main_scene="res://main.tscn"
+run/main_scene="uid://ct10fs6jlhqtv"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -19,6 +19,9 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/layer_4="underground"
+window/layer_3="pipes"
+window/layer_2="ground"
 
 [dotnet]
 
