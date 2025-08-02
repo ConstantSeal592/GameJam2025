@@ -15,7 +15,6 @@ public partial class MainPump : Node2D, Structure {
     public int CellSize = 50;
 
     public MainPump() {
-        GD.Print("Called");
 
         childTiles[0, 0] = -1;
         childTiles[0, 1] = 1;
@@ -34,7 +33,7 @@ public partial class MainPump : Node2D, Structure {
     }
 
     public override void _Ready() {
-        for (int i = 0; i < childTiles.GetLength(0); i++) {
+        for (int i = 2; i < childTiles.GetLength(0); i++) {
             var tile = ground.Instantiate<Node2D>();
 
             tile.Position = new Vector2(childTiles[i, 0] * CellSize + 0.5f * CellSize, childTiles[i, 1] * CellSize + 0.5f * CellSize);
@@ -45,29 +44,29 @@ public partial class MainPump : Node2D, Structure {
         }
     }
 
-    public bool IsOccupingCoords(int x, int y) {
-        int thisX = (int)this.Position.X / CellSize;
-        int thisY = (int)this.Position.Y / CellSize;
+    // public bool IsOccupingCoords(int x, int y) {
+    //     int thisX = (int)this.Position.X / CellSize;
+    //     int thisY = (int)this.Position.Y / CellSize;
 
-        for (int i = 0; i < childTiles.GetLength(0); i++) {
-            if (childTiles[i, 0] + thisX == x && childTiles[i, 1] + thisY == y) {
-                return true;
-            }
-        }
-        return false;
-    }
+    //     for (int i = 0; i < childTiles.GetLength(0); i++) {
+    //         if (childTiles[i, 0] + thisX == x && childTiles[i, 1] + thisY == y) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     public void Update() {
         var In = GetNode<PipePiece>("In");
         var Out = GetNode<PipePiece>("Out");
 
-        int inTake = (int)MathF.Min(In.Capacity, MaxCapacity - Capacity);
-        In.Capacity -= inTake;
-        Capacity += inTake;
-
         int outPut = (int)MathF.Min(Out.MaxCapacity - Out.Capacity, Capacity);
         Out.Capacity += outPut;
         Capacity -= outPut;
+
+        int inTake = (int)MathF.Min(In.Capacity, MaxCapacity - Capacity);
+        In.Capacity -= inTake;
+        Capacity += inTake;
     }
 } 
 

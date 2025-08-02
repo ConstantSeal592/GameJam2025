@@ -21,7 +21,7 @@ metadata/_edit_use_anchors_ = true
 [node name="In1" type="Marker2D" parent="."]
 position = Vector2(0, -50)
 
-[node name="ColorRect" type="ColorRect" parent="In1"]
+[node name="ColorRect" type="ColorRect" parent="In1" groups=["Cell", "Pipe"]]
 visible = false
 z_index = 100
 offset_right = 10.0
