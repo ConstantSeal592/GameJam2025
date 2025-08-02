@@ -436,9 +436,13 @@ public partial class Grid : Node2D {
         // PlaceCellAtCoords(7, 4, 270, true, bent_pipe);
         // PlaceCellAtCoords(10, 4, 360, true, bent_pipe);
 
-        PlaceStructureAtCoords(2, 2, house);
+        PlaceStructureAtCoords(20, 20, house);
+        PlaceStructureAtCoords(28, 18, house);
+        PlaceStructureAtCoords(17, 26, house);
+        PlaceStructureAtCoords(30, 30, house);
+        PlaceStructureAtCoords(24, 32, house);
 
-        PlaceStructureAtCoords(5, 5, main_pump);
+        PlaceStructureAtCoords(24, 24, main_pump);
 
         coolDown = WaterUpdateIncrement;
 
