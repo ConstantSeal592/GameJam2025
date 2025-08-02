@@ -21,5 +21,19 @@ texture = ExtResource("2_brrdj")
 [node name="In" type="Marker2D" parent="."]
 position = Vector2(0, 50)
 
+[node name="ColorRect" type="ColorRect" parent="In"]
+visible = false
+z_index = 100
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(0.971152, 0.179145, 3.85046e-07, 1)
+
 [node name="Out" type="Marker2D" parent="."]
 position = Vector2(-50, 0)
+
+[node name="ColorRect" type="ColorRect" parent="Out"]
+visible = false
+z_index = 100
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(4.04298e-06, 0.729666, 0.568041, 1)
