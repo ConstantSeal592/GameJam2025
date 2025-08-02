@@ -14,7 +14,7 @@ public partial class House : Node2D, Structure {
 	public float BillsMultiplier { get; set; }
 
 	[Export]
-	public double WaterUseIncrement { get; set; }
+	public int WaterUsedPerUpdate { get; set; }
 
 	public int[,] childTiles { get; set; } = { { -1, 0 }, { 0, 0 }, { 1, 0 } };
 
@@ -43,11 +43,10 @@ public partial class House : Node2D, Structure {
 		Capacity = WasteCapacity + PureCapacity;
 
 		WaterToMoney(inTake);
-	}
 
-	public void CreateWaste() {
-		WasteCapacity++;
-		PureCapacity--;
+		int convert = (int)MathF.Min(PureCapacity, WaterUsedPerUpdate);
+		PureCapacity -= convert;
+		WasteCapacity += convert;
 	}
 
 	public void CheckWaterNotSupplied() {
@@ -56,22 +55,13 @@ public partial class House : Node2D, Structure {
 		}
 	}
 
-	public double coolDown = 0d;
-
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
-		coolDown = WaterUseIncrement;
+		GetNode<Label>("Label").Text = WaterUsedPerUpdate.ToString();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta) {
-		coolDown -= delta;
-		if (coolDown < 0) {
-			coolDown = WaterUseIncrement;
-
-			CreateWaste();
-		}
-
 		CheckWaterNotSupplied();
 	}
 }

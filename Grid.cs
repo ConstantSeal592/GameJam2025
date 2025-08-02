@@ -419,7 +419,9 @@ public partial class Grid : Node2D {
     }
 
     public void loadLevelCells(int Level) {
-        straight_pipe = GD.Load<PackedScene>("res://GridObjects/lvl" + Level.ToString() +"/straight_pipe.tscn");
+        straight_pipe = GD.Load<PackedScene>("res://GridObjects/lvl" + Level.ToString() + "/straight_pipe.tscn");
+        junc_pipe = GD.Load<PackedScene>("res://GridObjects/lvl" + Level.ToString() +"/junc_pipe.tscn");
+        bent_pipe = GD.Load<PackedScene>("res://GridObjects/lvl" + Level.ToString() +"/bent_pipe.tscn");
     }
 
     public override void _Ready() {
