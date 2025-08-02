@@ -8,3 +8,4 @@
 [node name="menu_scene" parent="." instance=ExtResource("1_0xm2m")]
 
 [node name="game_scene" parent="." instance=ExtResource("2_h2yge")]
+script = null

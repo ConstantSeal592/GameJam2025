@@ -21,6 +21,9 @@ public partial class Grid : Node2D {
     public PackedScene bent_pipe { get; set; }
 
     [Export]
+    public PackedScene junc_pipe { get; set; }
+
+    [Export]
     public PackedScene main_pump { get; set; }
 
     [Export]
@@ -28,6 +31,10 @@ public partial class Grid : Node2D {
 
     [Export]
     public double WaterUpdateIncrement { get; set; }    //Seconds
+
+    public string CurrentTool { get; set; }
+    public int CurrentLevel { get; set; }
+    public int CurrentRotation { get; set; } = 0;
 
     public int CellSize = 50;
 
@@ -417,20 +424,41 @@ public partial class Grid : Node2D {
 
     public override void _UnhandledInput(InputEvent @event) {
         if (@event is InputEventMouseButton mouseDown) {
-            var clickCoords = GetViewport().GetMousePosition();
-
-            int x = (int)clickCoords.X / CellSize;
-            int y = (int)clickCoords.Y / CellSize;
-
-            GD.Print(x, y);
-
             if (mouseDown.ButtonIndex == MouseButton.Left) {
-                if (mouseDown.Pressed) {
-                    startDragX = x;
-                    startDragY = y;
+                if (CurrentTool == "BuildTool") {
+                    var clickCoords = GetViewport().GetMousePosition();
+
+                    int x = (int)clickCoords.X / CellSize;
+                    int y = (int)clickCoords.Y / CellSize;
+
+                    GD.Print(x, y);
+
+                    if (mouseDown.Pressed) {
+                        startDragX = x;
+                        startDragY = y;
+                    }
+                    else {
+                        BuildPipePath(startDragX, startDragY, x, y);
+                    }
                 }
                 else {
-                    BuildPipePath(startDragX, startDragY, x, y);
+                    var clickCoords = GetViewport().GetMousePosition();
+
+                    int x = (int)clickCoords.X / CellSize;
+                    int y = (int)clickCoords.Y / CellSize;
+
+                    if (CurrentTool == "Straight") {
+                        PlaceCellAtCoords(x, y, CurrentRotation, false, straight_pipe);
+                    } else if (CurrentTool == "Bent") {
+                        PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, bent_pipe);
+                    } else if (CurrentTool == "Tunnel") {
+                        GD.Print("NO TUNNEL");
+                        //PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, straight_pipe);
+                    } else if (CurrentTool == "Junc") {
+                        PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, junc_pipe);
+                    } else if (CurrentTool == "Delete") {
+                        PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, ground);
+                    }
                 }
             }
         }

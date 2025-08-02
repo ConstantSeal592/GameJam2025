@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://0n5lqn5ai7du"]
+[gd_scene load_steps=6 format=3 uid="uid://0n5lqn5ai7du"]
 
 [ext_resource type="Script" uid="uid://cr8qtl2424upb" path="res://Person.cs" id="1_mixcd"]
-[ext_resource type="Script" uid="uid://d3lilcc4okkyk" path="res://GameScene.cs" id="1_mj2jn"]
+[ext_resource type="Script" path="res://GameScene.cs" id="1_mj2jn"]
 [ext_resource type="PackedScene" uid="uid://ciewynib14ctu" path="res://shop.tscn" id="2_po0ka"]
 [ext_resource type="PackedScene" uid="uid://ctrswalaspky0" path="res://hud.tscn" id="2_v1wow"]
+[ext_resource type="PackedScene" uid="uid://b0opfsesci17a" path="res://grid.tscn" id="4_mixcd"]
 
 [node name="game_scene" type="Node"]
 script = ExtResource("1_mj2jn")
@@ -21,3 +22,5 @@ Money = 100
 
 [node name="world" type="Node2D" parent="."]
 visible = false
+
+[node name="Grid" parent="world" instance=ExtResource("4_mixcd")]
