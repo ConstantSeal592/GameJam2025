@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://6si0bpa72tyk"]
 
 [ext_resource type="Script" uid="uid://fhyrcq2ojv5a" path="res://GridObjects/House.cs" id="1_3tbpj"]
-[ext_resource type="PackedScene" uid="uid://cc6m7kmmy0qtt" path="res://GridObjects/junc_pipe.tscn" id="2_efm01"]
+[ext_resource type="PackedScene" uid="uid://ciot8jlgebs1m" path="res://GridObjects/junc_pipe.tscn" id="2_efm01"]
 [ext_resource type="Texture2D" uid="uid://cyy7pbc8poa17" path="res://icon.svg" id="3_5fgno"]
 [ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="4_8v5ii"]
 

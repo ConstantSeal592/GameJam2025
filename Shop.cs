@@ -21,10 +21,12 @@ public partial class Shop : CanvasLayer
 
 	[Export]
 	int[] Pipe_upgrade { get; set; } = new int[4];
-	public int pipe_lv = 0;
+	public int pipe_lv = 1;
 	public bool pipe_max = false;
 
-	
+	[Export]
+
+	int[] Pipe_capacities { get; set; } = new int[3];
 
 
 	private void _on_close_pressed() {
@@ -150,7 +152,7 @@ public partial class Shop : CanvasLayer
 		GetNode<Label>("Panel/efficiency_label").Text = "Water efficiency: " + Person.WaterEfficiency * 100 + "%";
 		GetNode<Label>("Panel/plv_label").Text = "Pipe LV: " + slider.Value;
 		GetNode<Label>("Panel/pspeed_label").Text = "Pipe speed: " + "None" + "L/h";
-		GetNode<Label>("Panel/pcapacity_label").Text = "Pipe capacity: " + "None" + "L";
+		GetNode<Label>("Panel/pcapacity_label").Text = "Pipe capacity: " + Pipe_capacities[(int) slider.Value] + "L";
 		GetNode<Label>("Panel/circulation_label").Text = "Water circulating: " +Mathf.Round(Person.Water)+ "L" ;
 		
 

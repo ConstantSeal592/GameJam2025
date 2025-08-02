@@ -35,7 +35,7 @@ public partial class Person : Node
 		if (Water > 0.0f) { Water -= Water / WaterEfficiency / 100; }
 		
 		var WaterBar = GetNode<ProgressBar>("/root/Main/game_scene/GUI/HUD/border/Water_bar");
-		WaterBar.Value = (int) ((float)Money / (float)gameScene.CurrentQuota*100);
+		WaterBar.Value = (int) ((float)Revenue / (float)gameScene.CurrentQuota*100);
 		
 	}
 }

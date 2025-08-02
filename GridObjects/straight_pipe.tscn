@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://b3p3nwasxsre0"]
+
+[ext_resource type="Texture2D" uid="uid://bpi0hjx8iddie" path="res://art/straight_pipe_1.png" id="1_eiy73"]
+[ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="1_fx3id"]
+[ext_resource type="Script" uid="uid://cawl3w36gbjbk" path="res://GridObjects/PipePiece.cs" id="1_njce1"]
+[ext_resource type="Texture2D" uid="uid://cdr3gqhc03ojw" path="res://art/straight_pipe_holo.png" id="4_w2v66"]
+
+[node name="straight_pipe" type="Node2D" groups=["Cell", "Pipe"]]
+script = ExtResource("1_njce1")
+MaxCapacity = 30
+
+[node name="ground" parent="." instance=ExtResource("1_fx3id")]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 25.0
+mouse_filter = 2
+texture = ExtResource("1_eiy73")
+
+[node name="In" type="Marker2D" parent="."]
+position = Vector2(50, 0)
+
+[node name="ColorRect" type="ColorRect" parent="In"]
+visible = false
+z_index = 100
+offset_right = 10.0
+offset_bottom = 10.0
+
+[node name="Out" type="Marker2D" parent="."]
+position = Vector2(-50, 0)
+
+[node name="ColorRect" type="ColorRect" parent="Out"]
+visible = false
+z_index = 100
+offset_right = 10.0
+offset_bottom = 10.0
+
+[node name="Hologram" type="TextureRect" parent="."]
+visible = false
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 25.0
+texture = ExtResource("4_w2v66")
