@@ -418,7 +418,7 @@ public partial class Grid : Node2D {
     }
 
     public override void _Ready() {
-        GetParent<World>().Position = new Vector2(XGridSize * CellSize, YGridSize * CellSize) * -0.5f;
+        GetParent<World>().Position = new Vector2(XGridSize * CellSize - GetViewportRect().Size.X, YGridSize * CellSize - GetViewportRect().Size.Y) * -0.5f;
 
         for (int x = 0; x < XGridSize; x++) {
             for (int y = 0; y < YGridSize; y++) {
