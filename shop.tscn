@@ -30,10 +30,9 @@ script = ExtResource("1_viryw")
 WTP_speed = PackedInt32Array(10, 20, 30, 40)
 WTP_efficiency = PackedInt32Array(10, 20, 30, 40)
 WTP_capacity = PackedInt32Array(10, 20, 30, 40)
-Pipe_upgrade = PackedInt32Array(10, 20, 30, 400)
+Pipe_upgrade = PackedInt32Array(10, 20, 30, 40)
 
 [node name="Panel" type="Panel" parent="."]
-visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -293,7 +292,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_blqjs")
 text = "Time elapsed: "
 vertical_alignment = 1
 
-[node name="Label9" type="Label" parent="Panel"]
+[node name="upgradelabel" type="Label" parent="Panel"]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 3

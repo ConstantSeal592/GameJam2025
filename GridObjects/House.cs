@@ -12,7 +12,7 @@ public partial class House : Node2D {
 	public int NewWater;
 	[Export]
 	public float WaterDebtMult = 1;
-
+	
 	[Export]
 	public int WasteRate = 1;
 

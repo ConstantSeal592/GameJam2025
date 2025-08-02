@@ -1,3 +1,41 @@
-[gd_scene format=3 uid="uid://8lk45lfmiabi"]
+[gd_scene load_steps=5 format=3 uid="uid://8lk45lfmiabi"]
+
+[ext_resource type="Texture2D" uid="uid://blq3b0dsjnb8f" path="res://art/bg.jpg" id="1_mfwt2"]
+[ext_resource type="FontFile" uid="uid://b13nthgt0f58e" path="res://art/kenvector_future.ttf" id="2_i4wrx"]
+[ext_resource type="Theme" uid="uid://cwfysqqklkevc" path="res://art/kenneyUI-green.tres" id="3_n6o5i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gnsb0"]
+bg_color = Color(0.239216, 0.25098, 0.25098, 0.662745)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
 
 [node name="menu_scene" type="Node"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0.180392, 0.180392, 0.176471, 1)
+offset_right = 1920.0
+offset_bottom = 1081.0
+texture = ExtResource("1_mfwt2")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="."]
+offset_left = 506.0
+offset_top = 43.0
+offset_right = 1347.0
+offset_bottom = 370.0
+theme_override_fonts/font = ExtResource("2_i4wrx")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = SubResource("StyleBoxFlat_gnsb0")
+text = "           
+       Pump It!"
+
+[node name="Button" type="Button" parent="."]
+offset_left = 643.0
+offset_top = 479.0
+offset_right = 1223.0
+offset_bottom = 652.0
+theme = ExtResource("3_n6o5i")
+theme_override_font_sizes/font_size = 60
+text = "PLAY"
