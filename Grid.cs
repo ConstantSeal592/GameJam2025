@@ -517,19 +517,21 @@ public partial class Grid : Node2D {
 
                 if (CurrentTool == "BuildTool") {
                     if (mouseDown.Pressed) {
-                        var mousePosition = GetMousePositionRelToGrid();
-                        mousePosition = new Vector2(
-                            (int)Mathf.Round(mousePosition.X / CellSize - 0.5f),
-                            (int)Mathf.Round(mousePosition.Y / CellSize - 0.5f)
-                        );
-                        if (!allThePositions.Contains(mousePosition)) {
-                            allThePositions.Add(mousePosition);
-                        }
-                        else {
-                            BuildPipePath2(startDragX, startDragY, x, y, false);
-                            allThePositions = new List<Vector2>();
+                        x = startDragX;
+                        y = startDragY;
+                        // var mousePosition = GetMousePositionRelToGrid();
+                        // mousePosition = new Vector2(
+                        //     (int)Mathf.Round(mousePosition.X / CellSize - 0.5f),
+                        //     (int)Mathf.Round(mousePosition.Y / CellSize - 0.5f)
+                        // );
+                        // if (!allThePositions.Contains(mousePosition)) {
+                        //     allThePositions.Add(mousePosition);
+                    }
+                    else {
+                        BuildPipePath(startDragX, startDragY, x, y, false);
+                        allThePositions = new List<Vector2>();
 
-                        }
+                    }
                     }
                     else {
                         GD.Print(CurrentTool);
@@ -577,18 +579,18 @@ public partial class Grid : Node2D {
                 if (CurrentTool == "BuildTool" && isMouseDown) {
 
 
-                    var mousePosition = GetMousePositionRelToGrid();
-                    mousePosition = new Vector2(
-                        (int)Mathf.Round(mousePosition.X / CellSize - 0.5f),
-                        (int)Mathf.Round(mousePosition.Y / CellSize - 0.5f)
-                    );
-                    if (!allThePositions.Contains(mousePosition)) {
-                        allThePositions.Add(mousePosition);
+                    // var mousePosition = GetMousePositionRelToGrid();
+                    // mousePosition = new Vector2(
+                    //     (int)Mathf.Round(mousePosition.X / CellSize - 0.5f),
+                    //     (int)Mathf.Round(mousePosition.Y / CellSize - 0.5f)
+                    // );
+                    // if (!allThePositions.Contains(mousePosition)) {
+                    //     allThePositions.Add(mousePosition);
                     }
                 }
 
             }
         }
 
-    }
-}
+    
+
