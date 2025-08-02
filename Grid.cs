@@ -403,6 +403,20 @@ public partial class Grid : Node2D {
 
     double coolDown = 0d;
 
+    public void HideAllTiles() {
+        foreach (Node2D child in GetChildren()) {
+            child.Hide();
+        }
+    }
+    public void ShowTilesInRadius(int radius) {
+        foreach (Node2D child in GetChildren()) {
+            float dist = MathF.Sqrt(MathF.Pow(child.Position.X / CellSize - 0.5f - XGridSize / 2, 2) + MathF.Pow(child.Position.Y / CellSize - 0.5f - YGridSize / 2, 2));
+            if (dist < radius) {
+                child.Show();
+            }
+        }
+    }
+
     public override void _Ready() {
         for (int x = 0; x < XGridSize; x++) {
             for (int y = 0; y < YGridSize; y++) {
@@ -425,6 +439,9 @@ public partial class Grid : Node2D {
         PlaceStructureAtCoords(5, 5, main_pump);
 
         coolDown = WaterUpdateIncrement;
+
+        HideAllTiles();
+        ShowTilesInRadius(10);
     }
 
     public override void _Process(double delta) {
@@ -534,7 +551,7 @@ public partial class Grid : Node2D {
         else if (@event is InputEventMouseMotion mouseMove) {
             var info = GetNode<PipeInfo>("pipe_info");
 
-            var cell = GetCellAtPosition((int)mouseMove.Position.X, (int)mouseMove.Position.Y);
+            var cell = GetCellAtPosition((int)GetMousePositionRelToGrid().X, (int)GetMousePositionRelToGrid().Y);
             bool isPipe = false;
 
             if (cell != null) {
