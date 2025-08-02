@@ -16,6 +16,7 @@ offset_top = -25.0
 offset_right = 25.0
 offset_bottom = 25.0
 texture = ExtResource("2_i7voi")
+metadata/_edit_use_anchors_ = true
 
 [node name="In1" type="Marker2D" parent="."]
 position = Vector2(0, -50)
