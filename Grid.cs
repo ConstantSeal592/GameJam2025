@@ -1,8 +1,8 @@
 using Godot;
 using System;
-using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
-public partial class Grid : Node {
+public partial class Grid : Node2D {
     [Export]
     public int XGridSize { get; set; }
 
@@ -21,15 +21,40 @@ public partial class Grid : Node {
     [Export]
     public PackedScene main_pump { get; set; }
 
+    [Export]
+    public double WaterUpdateIncrement { get; set; }    //Seconds
+
     public int CellSize = 50;
 
     public Node2D GetCellAtCoords(int x, int y) {
         foreach (Node2D cell in GetChildren()) {
             if (cell.Position.X == x * CellSize + 0.5f * CellSize && cell.Position.Y == y * CellSize + 0.5f * CellSize) {
-                return cell;
+                if (cell.IsInGroup("Cell")) {
+
+                    //Loop through children to see if it does occupy the space
+                    if (cell.IsInGroup("Structure")) {
+                        foreach (Node2D child in cell.GetChildren()) {
+                            if (child.Position.X == x * CellSize + 0.5f * CellSize && child.Position.Y == y * CellSize + 0.5f * CellSize) {
+                                if (child.IsInGroup("Cell")) {
+                                    return child;
+                                }
+                            }
+                        }
+                    }
+
+                    // not a structure so just return it
+                    else {
+                        return cell;
+                    }
+                }
             }
         }
         return null;
+    }
+    public Node2D GetCellAtPosition(int x, int y) {
+        int newX = (int)MathF.Round((float)x / (float)CellSize - 0.5f);
+        int newY = (int)MathF.Round((float)y / (float)CellSize - 0.5f);
+        return GetCellAtCoords(newX, newY);
     }
 
     public void PlaceCellAtCoords(int x, int y, int rotation, bool flip, PackedScene tileType) {
@@ -72,33 +97,208 @@ public partial class Grid : Node {
         AddChild(instantiatedStructure);
     }
 
+    public bool IsPipePiece(Node2D PipeSeg) {
+        return PipeSeg.IsInGroup("Pipe");
+    }
+
+    public Marker2D[] GetFeederMarkers(PipePiece PipeSeg, bool In, bool Out) {
+        Marker2D[] markers = new Marker2D[8];
+        int index = 0;
+
+        Regex[] regexes = new Regex[2];
+        if (In) {
+            regexes[0] = new Regex(@"^In\d*$");
+        }
+        if (Out) {
+            regexes[1] = new Regex(@"^Out\d*$");
+        }
+
+        foreach (Node child in PipeSeg.GetChildren()) {
+            foreach (Regex regex in regexes) {
+                if (regex != null) {
+                    if (regex.IsMatch(child.Name)) {
+                        markers[index] = (Marker2D)child;
+                        index++;
+                    }
+                }
+            }
+        }
+
+        return markers;
+    }
+
+    public Vector2 getMarkerPos(Marker2D marker) {
+        return ToLocal(marker.GlobalPosition);
+    }
+
+    public PipePiece[] GetPipePrev(PipePiece PipeSeg) {
+        PipePiece[] prevs = new PipePiece[4];
+        int index = 0;
+
+        foreach (Marker2D marker in GetFeederMarkers(PipeSeg, true, false)) {
+            GD.Print("M ", marker);
+            if (marker != null) {
+                var cell = GetCellAtPosition((int)getMarkerPos(marker).X, (int)getMarkerPos(marker).Y);
+                GD.Print("C ", cell);
+                if (cell != null) {
+                    GD.Print(cell.Position, IsPipePiece(cell));
+                    if (IsPipePiece(cell)) {
+                        bool valid = false;
+
+                        foreach (Marker2D marker1 in GetFeederMarkers((PipePiece)cell, false, true)) {
+                            GD.Print("M1 ", marker1);
+                            if (marker1 != null) {
+                                GD.Print(getMarkerPos(marker1) == PipeSeg.Position, getMarkerPos(marker1), PipeSeg.Position);
+                                if (getMarkerPos(marker1) == PipeSeg.Position) {
+                                    valid = true;
+                                }
+                            }
+                        }
+
+                        if (valid) {
+                            prevs[index] = (PipePiece)cell;
+                            index++;
+                            GD.Print("Valid");
+                        }
+                    }
+                }
+            }
+        }
+
+        return prevs;
+    }
+    public PipePiece[] GetPipeNext(PipePiece PipeSeg) {
+        PipePiece[] nexts = new PipePiece[4];
+        int index = 0;
+
+        foreach (Marker2D marker in GetFeederMarkers(PipeSeg, false, true)) {
+            if (marker != null) {
+                var cell = GetCellAtPosition((int)getMarkerPos(marker).X, (int)getMarkerPos(marker).Y);
+
+                if (cell != null && IsPipePiece(cell)) {
+                    bool valid = false;
+
+                    foreach (Marker2D marker1 in GetFeederMarkers((PipePiece)cell, true, false)) {
+                        if (marker1 != null) {
+                            if (getMarkerPos(marker1) == PipeSeg.Position) {
+                                valid = true;
+                            }
+                        }
+                    }
+
+                    if (valid) {
+                        nexts[index] = (PipePiece)cell;
+                        index++;
+                    }
+                }
+            }
+        }
+
+        return nexts;
+    }
+
+    public void FlowWater(PipePiece PipeSeg) {
+        //Push water to next peice
+        PipePiece[] nexts = GetPipeNext(PipeSeg);
+
+        foreach (PipePiece next in nexts) {     
+            //NEEDS REWORKING TO SPLIT EVENLY AT JUNCTIONS
+            if (next != null) {
+                int ToFlow = (int)MathF.Min(next.MaxCapacity - next.Capacity, PipeSeg.Capacity);
+                GD.Print("Flowing ", ToFlow);
+                PipeSeg.Capacity -= ToFlow;
+                next.Capacity += ToFlow;
+            }
+        }
+
+        PipePiece[] prevs = GetPipePrev(PipeSeg);
+        foreach (PipePiece prev in prevs) {
+            if (prev != null) {
+                GD.Print("Calling ", prev.Name);
+                FlowWater(prev);
+            }
+        }
+    }
+
+    public void UpdateWaterFlows() {
+        var junc = GetNode("main_pump").GetNode<PipePiece>("In");
+
+        foreach (Marker2D m in GetFeederMarkers(junc, true, false)) {
+            if (m != null) {
+                GD.Print(m.Position);
+            }
+        }
+
+        PipePiece[] prevs = GetPipePrev(junc);
+        foreach (PipePiece PipeSeg in prevs) {
+            GD.Print("P ",PipeSeg);
+            if (PipeSeg != null) {
+                GD.Print("Inital call ", PipeSeg.Position);
+                FlowWater(PipeSeg);
+            }
+        }
+
+    }
+
     public void BuildPipePath(int startX, int startY, int endX, int endY) {     //lvl needs adding
-        if (startX != endX) {
-            for (int x = Mathf.Min(startX, endX); x <= MathF.Max(startX, endX); x++) {
-                PlaceCellAtCoords(x, startY, (endX < startX) ? 0 : 180, false, straight_pipe);
+        if (MathF.Abs(startX - endX) > MathF.Abs(startY - endY)) {
+            if (startX != endX) {
+                for (int x = Mathf.Min(startX, endX); x <= MathF.Max(startX, endX); x++) {
+                    PlaceCellAtCoords(x, startY, (endX < startX) ? 0 : 180, false, straight_pipe);
+                }
             }
-        }
 
-        if (startY != endY) {
-            for (int y = Mathf.Min(startY, endY); y <= Mathf.Max(startY, endY); y++) {
-                PlaceCellAtCoords(endX, y, (endY < startY) ? 90 : 270, false, straight_pipe);
+            if (startY != endY) {
+                for (int y = Mathf.Min(startY, endY); y <= Mathf.Max(startY, endY); y++) {
+                    PlaceCellAtCoords(endX, y, (endY < startY) ? 90 : 270, false, straight_pipe);
+                }
             }
-        }
 
-        if (startX > endX) {
-            if (startY > endY) {
-                PlaceCellAtCoords(endX, startY, 270, true, bent_pipe);
+            if (startX > endX) {
+                if (startY > endY) {
+                    PlaceCellAtCoords(endX, startY, 270, true, bent_pipe);
+                }
+                else if (endY > startY) {
+                    PlaceCellAtCoords(endX, startY, 270, false, bent_pipe);
+                }
             }
-            else if (endY > startY) {
-                PlaceCellAtCoords(endX, startY, 270, false, bent_pipe);
+            else if (endX > startX) {
+                if (startY > endY) {
+                    PlaceCellAtCoords(endX, startY, 90, false, bent_pipe);
+                }
+                else if (endY > startY) {
+                    PlaceCellAtCoords(endX, startY, 90, true, bent_pipe);
+                }
             }
         }
-        else if (endX > startX) {
-            if (startY > endY) {
-                PlaceCellAtCoords(endX, startY, 90, false, bent_pipe);
+        else {
+            if (startY != endY) {
+                for (int y = Mathf.Min(startY, endY); y <= Mathf.Max(startY, endY); y++) {
+                    PlaceCellAtCoords(startX, y, (endY < startY) ? 90 : 270, false, straight_pipe);
+                }
             }
-            else if (endY > startY) {
-                PlaceCellAtCoords(endX, startY, 90, true, bent_pipe);
+
+            if (startX != endX) {
+                for (int x = Mathf.Min(startX, endX); x <= MathF.Max(startX, endX); x++) {
+                    PlaceCellAtCoords(x, endY, (endX < startX) ? 0 : 180, false, straight_pipe);
+                }
+            }
+
+            if (startX > endX) {
+                if (startY > endY) {
+                    PlaceCellAtCoords(startX, endY, 0, false, bent_pipe);
+                }
+                else if (endY > startY) {
+                    PlaceCellAtCoords(startX, endY, 180, true, bent_pipe);
+                }
+            }
+            else if (endX > startX) {
+                if (startY > endY) {
+                    PlaceCellAtCoords(startX, endY, 0, true, bent_pipe);
+                }
+                else if (endY > startY) {
+                    PlaceCellAtCoords(startX, endY, 180, false, bent_pipe);
+                }
             }
         }
     }
@@ -113,11 +313,23 @@ public partial class Grid : Node {
         PlaceStructureAtCoords(13, 13, main_pump);
     }
 
+    double coolDown = 0;
+    public override void _Process(double delta) {
+        coolDown -= delta;
+        if (coolDown < 0) {
+            coolDown = WaterUpdateIncrement;
+
+            GD.Print("Update");
+            UpdateWaterFlows();
+        }
+    }
+
+
     public int startDragX = 0;
     public int startDragY = 0;
 
     public override void _UnhandledInput(InputEvent @event) {
-        if (@event is InputEventMouseButton inputEvent) {
+        if (@event is InputEventMouseButton mouseDown) {
             var clickCoords = GetViewport().GetMousePosition();
 
             int x = (int)clickCoords.X / CellSize;
@@ -125,14 +337,36 @@ public partial class Grid : Node {
 
             GD.Print(x, y);
 
-            if (inputEvent.ButtonIndex == MouseButton.Left) {
-                if (inputEvent.Pressed) {
+            if (mouseDown.ButtonIndex == MouseButton.Left) {
+                if (mouseDown.Pressed) {
                     startDragX = x;
                     startDragY = y;
                 }
                 else {
                     BuildPipePath(startDragX, startDragY, x, y);
                 }
+            }
+        }
+
+        else if (@event is InputEventMouseMotion mouseMove) {
+            var info = GetNode<PipeInfo>("pipe_info");
+
+            var cell = GetCellAtPosition((int)mouseMove.Position.X, (int)mouseMove.Position.Y);
+            bool isPipe = false;
+
+            if (cell != null) {
+                if (IsPipePiece(cell)) {
+                    var pipe = cell as PipePiece;
+                    info.Position = pipe.Position;
+                    info.SetText(pipe.Capacity, pipe.MaxCapacity);
+
+                    isPipe = true;
+                }
+            }
+
+            info.Hide();
+            if (isPipe == true) {
+                info.Show();
             }
         }
     }

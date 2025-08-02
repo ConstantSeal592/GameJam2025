@@ -27,6 +27,12 @@ window/layer_2="ground"
 
 project/assembly_name="GameJam2025"
 
+[global_group]
+
+Pipe=""
+Cell=""
+Structure=""
+
 [layer_names]
 
 2d_render/layer_1="buildings"

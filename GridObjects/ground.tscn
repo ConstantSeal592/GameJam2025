@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dgo8llxbc8x1m"]
 
-[node name="ground" type="Node2D"]
+[node name="ground" type="Node2D" groups=["Cell"]]
 
 [node name="ColorRect2" type="ColorRect" parent="."]
 offset_left = -25.0

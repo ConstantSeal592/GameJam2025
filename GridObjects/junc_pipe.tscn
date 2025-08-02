@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://cc6m7kmmy0qtt"]
+
+[ext_resource type="Script" uid="uid://cawl3w36gbjbk" path="res://GridObjects/PipePiece.cs" id="1_i7voi"]
+[ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="1_tag0i"]
+[ext_resource type="Texture2D" uid="uid://cci8hoitv1mqa" path="res://art/junc_pipe_1.png" id="2_i7voi"]
+
+[node name="junc_pipe" type="Node2D" groups=["Cell", "Pipe"]]
+script = ExtResource("1_i7voi")
+MaxCapacity = 30
+
+[node name="ground" parent="." instance=ExtResource("1_tag0i")]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 25.0
+texture = ExtResource("2_i7voi")
+
+[node name="In1" type="Marker2D" parent="."]
+position = Vector2(0, -50)
+
+[node name="In2" type="Marker2D" parent="."]
+position = Vector2(-50, 0)
+
+[node name="In3" type="Marker2D" parent="."]
+position = Vector2(0, 50)
+
+[node name="In4" type="Marker2D" parent="."]
+position = Vector2(50, 0)
+
+[node name="Out1" type="Marker2D" parent="."]
+position = Vector2(0, -50)
+
+[node name="Out2" type="Marker2D" parent="."]
+position = Vector2(50, 0)
+
+[node name="Out3" type="Marker2D" parent="."]
+position = Vector2(0, 50)
+
+[node name="Out4" type="Marker2D" parent="."]
+position = Vector2(-50, 0)

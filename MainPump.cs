@@ -5,6 +5,11 @@ public partial class MainPump : Node2D, Structure {
     [Export]
     public PackedScene ground { get; set; }
 
+    [Export]
+    public int MaxCapacity { get; set; }
+    [Export]
+    public int Capacity { get; set; }
+
     public int[,] childTiles { get; set; } = new int[3 * 4 + 2, 2];
 
     public int CellSize = 50;
@@ -33,6 +38,8 @@ public partial class MainPump : Node2D, Structure {
             var tile = ground.Instantiate<Node2D>();
 
             tile.Position = new Vector2(childTiles[i, 0] * CellSize + 0.5f * CellSize, childTiles[i, 1] * CellSize + 0.5f * CellSize);
+
+            tile.AddToGroup("Cell");
 
             AddChild(tile);
         }
