@@ -64,7 +64,7 @@ public partial class Grid : Node2D {
                     }
                 }
             }
-            else if (cell.IsInGroup("Cell")) {
+            else if (cell.IsInGroup("Cell") && !cell.IsInGroup("Hologram")) {
                 if (cell.Position.X == x * CellSize + 0.5f * CellSize && cell.Position.Y == y * CellSize + 0.5f * CellSize) {
                     return cell;
                 }
