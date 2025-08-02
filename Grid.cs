@@ -477,7 +477,13 @@ public partial class Grid : Node2D {
 
         if (@event is InputEventMouseButton mouseDown) {
             if (mouseDown.ButtonIndex == MouseButton.Left) {
-                isMouseDown = true;
+                if (mouseDown.Pressed) {
+                    isMouseDown = true;
+                }
+                else {
+                    isMouseDown = false;
+                }
+
                 if (CurrentTool == "BuildTool") {
                     if (mouseDown.Pressed) {
                         startDragX = x;
@@ -507,9 +513,6 @@ public partial class Grid : Node2D {
                         PlaceCellAtCoords(x, y, 0, false, ground, false);
                     }
                 }
-            }
-            else {
-                isMouseDown = false;
             }
         }
 
