@@ -515,61 +515,78 @@ public partial class Grid : Node2D {
 
                 if (CurrentTool == "BuildTool") {
                     if (mouseDown.Pressed) {
-                        allThePositions.Add(GetMousePositionRelToGrid());
-                        // startDragX = x;
-                        // startDragY = y;
+                        var mousePosition = GetMousePositionRelToGrid();
+                        mousePosition = new Vector2(
+                            (int)Mathf.Round(mousePosition.X / CellSize - 0.5f),
+                            (int)Mathf.Round(mousePosition.Y / CellSize - 0.5f)
+                        );
+                        if (!allThePositions.Contains(mousePosition)) {
+                            allThePositions.Add(mousePosition);
+                        }
+                        else {
+                            BuildPipePath2(startDragX, startDragY, x, y, false);
+                            allThePositions = new List<Vector2>();
+
+                        }
                     }
                     else {
-                        BuildPipePath2(startDragX, startDragY, x, y, false);
-                        allThePositions = new List<Vector2>();
-                       
-                    }
-                }
-                else {
-                    GD.Print(CurrentTool);
+                        GD.Print(CurrentTool);
 
-                    if (CurrentTool == "Straight") {
-                        PlaceCellAtCoords(x, y, CurrentRotation, false, straight_pipe, false);
-                    }
-                    else if (CurrentTool == "Bent") {
-                        PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? true : false, bent_pipe, false);
-                    }
-                    else if (CurrentTool == "Tunnel") {
-                        GD.Print("NO TUNNEL");
-                        //PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, straight_pipe, false);
-                    }
-                    else if (CurrentTool == "Junc") {
-                        PlaceCellAtCoords(x, y, 0, false, junc_pipe, false);
-                    }
-                    else if (CurrentTool == "Delete") {
-                        PlaceCellAtCoords(x, y, 0, false, ground, false);
+                        if (CurrentTool == "Straight") {
+                            PlaceCellAtCoords(x, y, CurrentRotation, false, straight_pipe, false);
+                        }
+                        else if (CurrentTool == "Bent") {
+                            PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? true : false, bent_pipe, false);
+                        }
+                        else if (CurrentTool == "Tunnel") {
+                            GD.Print("NO TUNNEL");
+                            //PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, straight_pipe, false);
+                        }
+                        else if (CurrentTool == "Junc") {
+                            PlaceCellAtCoords(x, y, 0, false, junc_pipe, false);
+                        }
+                        else if (CurrentTool == "Delete") {
+                            PlaceCellAtCoords(x, y, 0, false, ground, false);
+                        }
                     }
                 }
+            }
+
+            else if (@event is InputEventMouseMotion mouseMove) {
+                var info = GetNode<PipeInfo>("pipe_info");
+
+                var cell = GetCellAtPosition((int)GetMousePositionRelToGrid().X, (int)GetMousePositionRelToGrid().Y);
+                bool isPipe = false;
+
+                if (cell != null) {
+                    if (IsPipePiece(cell)) {
+                        var pipe = cell as PipePiece;
+                        info.Position = GetGridRelPos(pipe);
+                        info.SetText(pipe.Capacity, pipe.MaxCapacity);
+
+                        isPipe = true;
+                    }
+                }
+
+                info.Hide();
+                if (isPipe == true) {
+                    info.Show();
+                }
+                if (CurrentTool == "BuildTool" && isMouseDown) {
+
+
+                    var mousePosition = GetMousePositionRelToGrid();
+                    mousePosition = new Vector2(
+                        (int)Mathf.Round(mousePosition.X / CellSize - 0.5f),
+                        (int)Mathf.Round(mousePosition.Y / CellSize - 0.5f)
+                    );
+                    if (!allThePositions.Contains(mousePosition)) {
+                        allThePositions.Add(mousePosition);
+                    }
+                }
+
             }
         }
 
-        else if (@event is InputEventMouseMotion mouseMove) {
-            var info = GetNode<PipeInfo>("pipe_info");
-
-            var cell = GetCellAtPosition((int)GetMousePositionRelToGrid().X, (int)GetMousePositionRelToGrid().Y);
-            bool isPipe = false;
-
-            if (cell != null) {
-                if (IsPipePiece(cell)) {
-                    var pipe = cell as PipePiece;
-                    info.Position = GetGridRelPos(pipe);
-                    info.SetText(pipe.Capacity, pipe.MaxCapacity);
-
-                    isPipe = true;
-                }
-            }
-
-            info.Hide();
-            if (isPipe == true) {
-                info.Show();
-            }
-            if (CurrentTool == "BuildTool" && isMouseDown) {allThePositions.Add(GetMousePositionRelToGrid());}
-        }
     }
-
 }
