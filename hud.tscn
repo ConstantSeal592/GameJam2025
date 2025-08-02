@@ -33,19 +33,6 @@ corner_radius_bottom_left = 10
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_37p78")
 
-[node name="border2" type="NinePatchRect" parent="."]
-offset_top = 874.0
-offset_right = 1920.0
-offset_bottom = 1080.0
-texture = ExtResource("2_640wx")
-region_rect = Rect2(0, 0, 150, 150)
-patch_margin_left = 50
-patch_margin_top = 50
-patch_margin_right = 50
-patch_margin_bottom = 50
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-
 [node name="border" type="TextureRect" parent="."]
 self_modulate = Color(1, 1, 1, 0)
 anchors_preset = 7
@@ -60,6 +47,19 @@ grow_horizontal = 2
 grow_vertical = 0
 texture = ExtResource("2_64ctp")
 expand_mode = 1
+
+[node name="border2" type="NinePatchRect" parent="border"]
+modulate = Color(0.984314, 0.788235, 0.568627, 1)
+offset_right = 1920.0
+offset_bottom = 206.0
+texture = ExtResource("2_640wx")
+region_rect = Rect2(0, 0, 150, 150)
+patch_margin_left = 50
+patch_margin_top = 50
+patch_margin_right = 50
+patch_margin_bottom = 50
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="Button" type="Button" parent="border"]
 layout_mode = 1
