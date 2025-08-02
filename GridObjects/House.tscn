@@ -6,10 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="4_8v5ii"]
 
 [node name="house" type="Node2D" groups=["Cell", "Structure"]]
+visible = false
 script = ExtResource("1_3tbpj")
-MaxCapacity = 15
-BillsMultiplier = 10.0
-WaterUseIncrement = 3.0
 
 [node name="In" parent="." instance=ExtResource("2_efm01")]
 z_index = 1

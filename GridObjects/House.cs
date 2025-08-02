@@ -5,10 +5,8 @@ public partial class House : Node2D, Structure {
 	//Max water is handles by MaximumWater pls handle the water pump in and out and New water is NewWater :)
 	
 	[Export]
-<<<<<<< HEAD
 	public float WaterDebtMult = 1;
 	
-=======
 	public int MaxCapacity { get; set; }
 
 	public int WasteCapacity { get; set; }
@@ -18,7 +16,6 @@ public partial class House : Node2D, Structure {
 	[Export]
 	public float BillsMultiplier { get; set; }
 
->>>>>>> 48e5de86edd1fc4dbf8e1e776481bc896f44edc7
 	[Export]
 	public double WaterUseIncrement { get; set; }
 
