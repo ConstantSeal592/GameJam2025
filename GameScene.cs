@@ -12,10 +12,11 @@ public partial class GameScene : Node
 	public void NewQuota() {
 		CurrentQuota = Quotas[QuotasAchieved];
 		QuotasAchieved += 1;
-		ExpandMap();
+		var grid = GetNode<Grid>("/root/Main/game_scene/world/Grid");
+		grid.ShowTilesInRadius(5*(QuotasAchieved+1));
 	}
 	
-	public void ExpandMap() { }
+
 
 	public void Lose(){}
 	public void Win(){}

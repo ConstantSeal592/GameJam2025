@@ -14,7 +14,6 @@ Quotas = PackedInt32Array(120, 240, 480, 960, 10)
 [node name="GUI" type="Node" parent="."]
 
 [node name="Shop" parent="GUI" instance=ExtResource("2_po0ka")]
-visible = false
 
 [node name="HUD" parent="GUI" instance=ExtResource("2_v1wow")]
 
