@@ -23,6 +23,7 @@ public partial class House : Node2D, Structure {
 	public void WaterToMoney(int NewWater) {
 		var Person = GetNode<Person>("/root/Main/game_scene/Person");
 		Person.Money += (int)(NewWater * BillsMultiplier);
+		Person.Revenue += (int)(NewWater * BillsMultiplier);
 	}
 
 	public void Update() {
