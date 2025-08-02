@@ -411,10 +411,14 @@ public partial class Grid : Node2D {
         }
 
         var info = GetNode<PipeInfo>("pipe_info");
-        var cell = GetCellAtPosition((int)info.Position.X,(int)info.Position.Y);
+        var cell = GetCellAtPosition((int)info.Position.X, (int)info.Position.Y);
         if (IsPipePiece(cell)) {
             var pipe = cell as PipePiece;
             info.SetText(pipe.Capacity, pipe.MaxCapacity);
+        }
+
+        if (Input.IsActionPressed("rotate")) {
+            CurrentRotation = (CurrentRotation + 90) % 720;
         }
     }
 
@@ -447,16 +451,22 @@ public partial class Grid : Node2D {
                     int x = (int)clickCoords.X / CellSize;
                     int y = (int)clickCoords.Y / CellSize;
 
+                    GD.Print(CurrentTool);
+                    
                     if (CurrentTool == "Straight") {
                         PlaceCellAtCoords(x, y, CurrentRotation, false, straight_pipe);
-                    } else if (CurrentTool == "Bent") {
+                    }
+                    else if (CurrentTool == "Bent") {
                         PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, bent_pipe);
-                    } else if (CurrentTool == "Tunnel") {
+                    }
+                    else if (CurrentTool == "Tunnel") {
                         GD.Print("NO TUNNEL");
                         //PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, straight_pipe);
-                    } else if (CurrentTool == "Junc") {
+                    }
+                    else if (CurrentTool == "Junc") {
                         PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, junc_pipe);
-                    } else if (CurrentTool == "Delete") {
+                    }
+                    else if (CurrentTool == "Delete") {
                         PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, ground);
                     }
                 }

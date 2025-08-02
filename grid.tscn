@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b0opfsesci17a"]
+[gd_scene load_steps=9 format=3 uid="uid://b0opfsesci17a"]
 
 [ext_resource type="Script" uid="uid://b7lcwk7yjnkjv" path="res://Grid.cs" id="1_ebq2e"]
 [ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="2_65i6o"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://dpxc4lb5ysjp6" path="res://GridObjects/bent_pipe.tscn" id="4_bghhw"]
 [ext_resource type="PackedScene" uid="uid://cliklr0cike5m" path="res://pipe_info.tscn" id="5_fqc2p"]
 [ext_resource type="PackedScene" uid="uid://dxpwv4wy3xp6f" path="res://GridObjects/main_pump.tscn" id="5_g2qvd"]
+[ext_resource type="PackedScene" uid="uid://cc6m7kmmy0qtt" path="res://GridObjects/junc_pipe.tscn" id="5_r8ukp"]
+[ext_resource type="PackedScene" uid="uid://6si0bpa72tyk" path="res://GridObjects/house.tscn" id="7_b0p4s"]
 
 [node name="Grid" type="Node2D"]
 script = ExtResource("1_ebq2e")
@@ -14,7 +16,9 @@ YGridSize = 10
 ground = ExtResource("2_65i6o")
 straight_pipe = ExtResource("3_sle3t")
 bent_pipe = ExtResource("4_bghhw")
+junc_pipe = ExtResource("5_r8ukp")
 main_pump = ExtResource("5_g2qvd")
+house = ExtResource("7_b0p4s")
 WaterUpdateIncrement = 3.0
 
 [node name="pipe_info" parent="." instance=ExtResource("5_fqc2p")]
