@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://ctrswalaspky0"]
+[gd_scene load_steps=8 format=3 uid="uid://ctrswalaspky0"]
 
 [ext_resource type="Script" uid="uid://bkc4mkv4elue7" path="res://Hud.cs" id="1_37p78"]
 [ext_resource type="Texture2D" uid="uid://bjf7ftbk8fm82" path="res://art/seamless-wood-texture-5-900x900.webp" id="2_64ctp"]
+[ext_resource type="Texture2D" uid="uid://c0tkfbx43fmp8" path="res://art/9Slice.png" id="2_640wx"]
 [ext_resource type="Theme" uid="uid://baa0ri8nmrw3p" path="res://art/kenneyUI-yellow.tres" id="3_8sq4i"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n2snw"]
@@ -32,7 +33,21 @@ corner_radius_bottom_left = 10
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_37p78")
 
+[node name="border2" type="NinePatchRect" parent="."]
+offset_top = 874.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_640wx")
+region_rect = Rect2(0, 0, 150, 150)
+patch_margin_left = 50
+patch_margin_top = 50
+patch_margin_right = 50
+patch_margin_bottom = 50
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
 [node name="border" type="TextureRect" parent="."]
+self_modulate = Color(1, 1, 1, 0)
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
