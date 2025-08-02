@@ -102,6 +102,10 @@ public partial class Grid : Node2D {
 
         if (IsHologram) {
             cell.GetNode<TextureRect>("TextureRect").Modulate = new Color(0, 0, 0, 0.5f);
+            cell.GetNode<TextureRect>("Hologram").Show();
+            if (flip == true) {
+                cell.GetNode<TextureRect>("Hologram").FlipH = true;
+            }
             cell.AddToGroup("Hologram");
         }
 
@@ -446,17 +450,17 @@ public partial class Grid : Node2D {
             PlaceCellAtCoords(x, y, CurrentRotation, false, straight_pipe, true);
         }
         else if (CurrentTool == "Bent") {
-            PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, bent_pipe, true);
+            PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? true : false, bent_pipe, true);
         }
         else if (CurrentTool == "Tunnel") {
             GD.Print("NO TUNNEL");
             //PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, straight_pipe, true);
         }
         else if (CurrentTool == "Junc") {
-            PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, junc_pipe, true);
+            PlaceCellAtCoords(x, y, 0, false, junc_pipe, true);
         }
         else if (CurrentTool == "Delete") {
-            PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, ground, true);
+            PlaceCellAtCoords(x, y, 0, false, ground, true);
         }
     }
 
@@ -488,17 +492,17 @@ public partial class Grid : Node2D {
                         PlaceCellAtCoords(x, y, CurrentRotation, false, straight_pipe, false);
                     }
                     else if (CurrentTool == "Bent") {
-                        PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, bent_pipe, false);
+                        PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? true : false, bent_pipe, false);
                     }
                     else if (CurrentTool == "Tunnel") {
                         GD.Print("NO TUNNEL");
                         //PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, straight_pipe, false);
                     }
                     else if (CurrentTool == "Junc") {
-                        PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, junc_pipe, false);
+                        PlaceCellAtCoords(x, y, 0, false, junc_pipe, false);
                     }
                     else if (CurrentTool == "Delete") {
-                        PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, ground, false);
+                        PlaceCellAtCoords(x, y, 0, false, ground, false);
                     }
                 }
             }

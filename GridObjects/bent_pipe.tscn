@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dpxc4lb5ysjp6"]
+[gd_scene load_steps=5 format=3 uid="uid://dpxc4lb5ysjp6"]
 
 [ext_resource type="Script" uid="uid://cawl3w36gbjbk" path="res://GridObjects/PipePiece.cs" id="1_4yqjd"]
 [ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="1_brrdj"]
 [ext_resource type="Texture2D" uid="uid://dcxfo6vaa8wpk" path="res://art/bent_pipe_1.png" id="2_brrdj"]
+[ext_resource type="Texture2D" uid="uid://dwbi8784jv0e" path="res://art/bent_pipe_holo.png" id="4_b82n1"]
 
 [node name="bent_pipe" type="Node2D" groups=["Cell", "Pipe"]]
 script = ExtResource("1_4yqjd")
@@ -37,3 +38,11 @@ z_index = 100
 offset_right = 10.0
 offset_bottom = 10.0
 color = Color(4.04298e-06, 0.729666, 0.568041, 1)
+
+[node name="Hologram" type="TextureRect" parent="."]
+visible = false
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 25.0
+texture = ExtResource("4_b82n1")
