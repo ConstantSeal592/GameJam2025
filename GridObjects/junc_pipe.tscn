@@ -21,14 +21,38 @@ metadata/_edit_use_anchors_ = true
 [node name="In1" type="Marker2D" parent="."]
 position = Vector2(0, -50)
 
+[node name="ColorRect" type="ColorRect" parent="In1"]
+visible = false
+z_index = 100
+offset_right = 10.0
+offset_bottom = 10.0
+
 [node name="In2" type="Marker2D" parent="."]
 position = Vector2(-50, 0)
+
+[node name="ColorRect" type="ColorRect" parent="In2"]
+visible = false
+z_index = 100
+offset_right = 10.0
+offset_bottom = 10.0
 
 [node name="In3" type="Marker2D" parent="."]
 position = Vector2(0, 50)
 
+[node name="ColorRect" type="ColorRect" parent="In3"]
+visible = false
+z_index = 100
+offset_right = 10.0
+offset_bottom = 10.0
+
 [node name="In4" type="Marker2D" parent="."]
 position = Vector2(50, 0)
+
+[node name="ColorRect" type="ColorRect" parent="In4"]
+visible = false
+z_index = 100
+offset_right = 10.0
+offset_bottom = 10.0
 
 [node name="Out1" type="Marker2D" parent="."]
 position = Vector2(0, -50)

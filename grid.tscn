@@ -9,8 +9,8 @@
 
 [node name="Grid" type="Node2D"]
 script = ExtResource("1_ebq2e")
-XGridSize = 30
-YGridSize = 30
+XGridSize = 10
+YGridSize = 10
 ground = ExtResource("2_65i6o")
 straight_pipe = ExtResource("3_sle3t")
 bent_pipe = ExtResource("4_bghhw")

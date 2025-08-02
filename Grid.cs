@@ -29,26 +29,37 @@ public partial class Grid : Node2D {
 
     public int CellSize = 50;
 
-    public Node2D GetCellAtCoords(int x, int y) {
-        foreach (Node2D cell in GetChildren()) {
-            if (cell.Position.X == x * CellSize + 0.5f * CellSize && cell.Position.Y == y * CellSize + 0.5f * CellSize) {
-                if (cell.IsInGroup("Cell")) {
+    public Vector2 GetGridRelPos(Node2D marker) {
+        Node2D parent = marker;
+        Vector2 pos = marker.Position;
+        while (parent != this) {
+            parent = parent.GetParent<Node2D>();
 
-                    //Loop through children to see if it does occupy the space
-                    if (cell.IsInGroup("Structure")) {
-                        foreach (Node2D child in cell.GetChildren()) {
-                            if (child.Position.X == x * CellSize + 0.5f * CellSize && child.Position.Y == y * CellSize + 0.5f * CellSize) {
-                                if (child.IsInGroup("Cell")) {
-                                    return child;
-                                }
+            Transform2D matrix = new Transform2D(parent.Rotation, Vector2.Zero);
+            pos = matrix * pos + parent.Position;
+        }
+        return pos;
+    }
+
+    public Node2D GetCellAtCoords(int x, int y) {
+        GD.Print('C',x, y);
+        foreach (Node2D cell in GetChildren()) {
+            if (cell.IsInGroup("Structure")) { //Loop through children to see if it does occupy the space
+                GD.Print("Is Structure");
+                foreach (Node child in cell.GetChildren()) {
+                    if (child is Node2D) {
+                        var cellChild = child as Node2D;
+                        if (GetGridRelPos(cellChild).X == x * CellSize + 0.5f * CellSize && GetGridRelPos(cellChild).Y == y * CellSize + 0.5f * CellSize) {
+                            if (child.IsInGroup("Cell")) {
+                                return cellChild;
                             }
                         }
                     }
-
-                    // not a structure so just return it
-                    else {
-                        return cell;
-                    }
+                }
+            }
+            else if (cell.IsInGroup("Cell")) {
+                if (cell.Position.X == x * CellSize + 0.5f * CellSize && cell.Position.Y == y * CellSize + 0.5f * CellSize) {
+                    return cell;
                 }
             }
         }
@@ -63,17 +74,18 @@ public partial class Grid : Node2D {
     public void PlaceCellAtCoords(int x, int y, int rotation, bool flip, PackedScene tileType) {
         var prev = GetCellAtCoords(x, y);
         if (prev != null) {
-            prev.QueueFree();
+            prev.Free();
         }
 
         var cell = tileType.Instantiate<Node2D>();
 
         cell.Position = new Vector2(x * CellSize + 0.5f * CellSize, y * CellSize + 0.5f * CellSize);
-        cell.Rotation = (float)rotation / 180 * Mathf.Pi;
-
         if (flip == true) {
             cell.GetNode<TextureRect>("TextureRect").FlipH = true;
+            cell.GetNode<Marker2D>("Out").Position = new Vector2(50, 0);
         }
+        cell.Rotation = (float)rotation / 180 * Mathf.Pi;
+
 
         AddChild(cell);
     }
@@ -86,7 +98,7 @@ public partial class Grid : Node2D {
             GD.Print(struc.childTiles[i,0],",",struc.childTiles[i,1]);
             var prev = GetCellAtCoords(struc.childTiles[i, 0] + x, struc.childTiles[i, 1] + y);
             if (prev != null) {
-                prev.QueueFree();
+                prev.Free();
                 GD.Print("Deleted");
             }
             else {
@@ -130,29 +142,20 @@ public partial class Grid : Node2D {
         return markers;
     }
 
-    public Vector2 getMarkerPos(Marker2D marker) {
-        return ToLocal(marker.GlobalPosition);
-    }
-
     public PipePiece[] GetPipePrev(PipePiece PipeSeg) {
         PipePiece[] prevs = new PipePiece[4];
         int index = 0;
 
         foreach (Marker2D marker in GetFeederMarkers(PipeSeg, true, false)) {
-            GD.Print("M ", marker);
             if (marker != null) {
-                var cell = GetCellAtPosition((int)getMarkerPos(marker).X, (int)getMarkerPos(marker).Y);
-                GD.Print("C ", cell);
+                var cell = GetCellAtPosition((int)GetGridRelPos(marker).X, (int)GetGridRelPos(marker).Y);
                 if (cell != null) {
-                    GD.Print(cell.Position, IsPipePiece(cell));
                     if (IsPipePiece(cell)) {
                         bool valid = false;
 
                         foreach (Marker2D marker1 in GetFeederMarkers((PipePiece)cell, false, true)) {
-                            GD.Print("M1 ", marker1);
                             if (marker1 != null) {
-                                GD.Print(getMarkerPos(marker1) == PipeSeg.Position, getMarkerPos(marker1), PipeSeg.Position);
-                                if (getMarkerPos(marker1) == PipeSeg.Position) {
+                                if ((GetGridRelPos(marker1) - GetGridRelPos(PipeSeg)).Length() < 0.1) {
                                     valid = true;
                                 }
                             }
@@ -161,7 +164,6 @@ public partial class Grid : Node2D {
                         if (valid) {
                             prevs[index] = (PipePiece)cell;
                             index++;
-                            GD.Print("Valid");
                         }
                     }
                 }
@@ -176,14 +178,14 @@ public partial class Grid : Node2D {
 
         foreach (Marker2D marker in GetFeederMarkers(PipeSeg, false, true)) {
             if (marker != null) {
-                var cell = GetCellAtPosition((int)getMarkerPos(marker).X, (int)getMarkerPos(marker).Y);
+                var cell = GetCellAtPosition((int)GetGridRelPos(marker).X, (int)GetGridRelPos(marker).Y);
 
                 if (cell != null && IsPipePiece(cell)) {
                     bool valid = false;
 
                     foreach (Marker2D marker1 in GetFeederMarkers((PipePiece)cell, true, false)) {
                         if (marker1 != null) {
-                            if (getMarkerPos(marker1) == PipeSeg.Position) {
+                            if ((GetGridRelPos(marker1) - GetGridRelPos(PipeSeg)).Length() < 0.1) {
                                 valid = true;
                             }
                         }
@@ -240,7 +242,6 @@ public partial class Grid : Node2D {
                 FlowWater(PipeSeg);
             }
         }
-
     }
 
     public void BuildPipePath(int startX, int startY, int endX, int endY) {     //lvl needs adding
@@ -306,6 +307,8 @@ public partial class Grid : Node2D {
         }
     }
 
+    double coolDown = 0;
+
     public override void _Ready() {
         for (int x = 0; x < XGridSize; x++) {
             for (int y = 0; y < YGridSize; y++) {
@@ -313,10 +316,21 @@ public partial class Grid : Node2D {
             }
         }
 
-        PlaceStructureAtCoords(13, 13, main_pump);
+        // PlaceCellAtCoords(1, 1, 0, false, bent_pipe);
+        // PlaceCellAtCoords(4, 1, 90, false, bent_pipe);
+        // PlaceCellAtCoords(7, 1, 270, false, bent_pipe);
+        // PlaceCellAtCoords(10, 1, 360, false, bent_pipe);
+
+        // PlaceCellAtCoords(1, 4, 0, true, bent_pipe);
+        // PlaceCellAtCoords(4, 4, 90, true, bent_pipe);
+        // PlaceCellAtCoords(7, 4, 270, true, bent_pipe);
+        // PlaceCellAtCoords(10, 4, 360, true, bent_pipe);
+
+        PlaceStructureAtCoords(5, 5, main_pump);
+
+        coolDown = WaterUpdateIncrement;
     }
 
-    double coolDown = 0;
     public override void _Process(double delta) {
         coolDown -= delta;
         if (coolDown < 0) {
@@ -333,6 +347,7 @@ public partial class Grid : Node2D {
 
     public override void _UnhandledInput(InputEvent @event) {
         if (@event is InputEventMouseButton mouseDown) {
+            GD.Print(GetViewport().GetMousePosition());
             var clickCoords = GetViewport().GetMousePosition();
 
             int x = (int)clickCoords.X / CellSize;
