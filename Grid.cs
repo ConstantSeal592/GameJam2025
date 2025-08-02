@@ -24,7 +24,7 @@ public partial class Grid : Node2D {
     public PackedScene main_pump { get; set; }
 
     [Export]
-    public PackedScene House { get; set; }
+    public PackedScene house { get; set; }
 
     [Export]
     public double WaterUpdateIncrement { get; set; }    //Seconds
@@ -74,6 +74,10 @@ public partial class Grid : Node2D {
     public void PlaceCellAtCoords(int x, int y, int rotation, bool flip, PackedScene tileType) {
         var prev = GetCellAtCoords(x, y);
         if (prev != null) {
+            if (IsPipePiece(prev)) {
+                var pipe = prev as PipePiece;
+                SpawnWater(pipe.Capacity);
+            }
             prev.Free();
         }
 
@@ -98,8 +102,11 @@ public partial class Grid : Node2D {
             GD.Print(struc.childTiles[i,0],",",struc.childTiles[i,1]);
             var prev = GetCellAtCoords(struc.childTiles[i, 0] + x, struc.childTiles[i, 1] + y);
             if (prev != null) {
+                if (IsPipePiece(prev)) {
+                    var pipe = prev as PipePiece;
+                    SpawnWater(pipe.Capacity);
+                }
                 prev.Free();
-                GD.Print("Deleted");
             }
             else {
                 GD.Print("not found");
@@ -213,11 +220,18 @@ public partial class Grid : Node2D {
         foreach (PipePiece next in nexts) {
             //NEEDS REWORKING TO SPLIT EVENLY AT JUNCTIONS
             if (next != null) {
-                int ToFlow = (int)MathF.Min(next.MaxCapacity - next.Capacity, PipeSeg.Capacity);
-                PipeSeg.Capacity -= ToFlow;
-                next.Capacity += ToFlow;
+                if (next.IsPureWater == PipeSeg.IsPureWater || next.Capacity == 0) {
+                    int ToFlow = (int)MathF.Min(next.MaxCapacity - next.Capacity, PipeSeg.Capacity);
+                    PipeSeg.Capacity -= ToFlow;
+                    next.Capacity += ToFlow;
 
-                PipeSeg.HasPushedWater = true;
+                    next.IsPureWater = PipeSeg.IsPureWater;
+
+                    PipeSeg.HasPushedWater = true;
+                }
+                else {
+                    GD.Print("Water type mix!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                }
             }
         }
 
@@ -346,7 +360,11 @@ public partial class Grid : Node2D {
         }
     }
 
-    double coolDown = 0;
+    public void SpawnWater(int water) {
+        GetNode<MainPump>("main_pump").Capacity += water;
+    }
+
+    double coolDown = 0d;
 
     public override void _Ready() {
         for (int x = 0; x < XGridSize; x++) {
@@ -364,6 +382,8 @@ public partial class Grid : Node2D {
         // PlaceCellAtCoords(4, 4, 90, true, bent_pipe);
         // PlaceCellAtCoords(7, 4, 270, true, bent_pipe);
         // PlaceCellAtCoords(10, 4, 360, true, bent_pipe);
+
+        PlaceStructureAtCoords(2, 2, house);
 
         PlaceStructureAtCoords(5, 5, main_pump);
 

@@ -7,4 +7,5 @@ public partial class PipePiece : Node2D, Pipe {
     [Export]
     public int Capacity { get; set; }
     public bool HasPushedWater { get; set; } = false;
+    public bool IsPureWater { get; set; } = true;
 }
