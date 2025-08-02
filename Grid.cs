@@ -387,6 +387,10 @@ public partial class Grid : Node2D {
         GetNode<MainPump>("main_pump").Capacity += water;
     }
 
+    public Vector2 GetMousePositionRelToGrid() {
+        return GetLocalMousePosition();
+    }
+
     double coolDown = 0d;
 
     public override void _Ready() {
@@ -413,10 +417,6 @@ public partial class Grid : Node2D {
         coolDown = WaterUpdateIncrement;
     }
 
-    public void PositionPipeOverlay() {
-        
-    }
-
     public override void _Process(double delta) {
         coolDown -= delta;
         if (coolDown < 0) {
@@ -438,7 +438,7 @@ public partial class Grid : Node2D {
             GD.Print(CurrentRotation);
         }
 
-        var clickCoords = GetViewport().GetMousePosition();
+        var clickCoords = GetMousePositionRelToGrid();
 
         int x = (int)clickCoords.X / CellSize;
         int y = (int)clickCoords.Y / CellSize;
@@ -470,7 +470,7 @@ public partial class Grid : Node2D {
     public bool isMouseDown = false;
 
     public override void _UnhandledInput(InputEvent @event) {
-        var clickCoords = GetViewport().GetMousePosition();
+        var clickCoords = GetMousePositionRelToGrid();
 
         int x = (int)clickCoords.X / CellSize;
         int y = (int)clickCoords.Y / CellSize;
