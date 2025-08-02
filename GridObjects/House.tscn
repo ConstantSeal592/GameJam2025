@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="4_8v5ii"]
 
 [node name="house" type="Node2D" groups=["Cell", "Structure"]]
-visible = false
 script = ExtResource("1_3tbpj")
 
 [node name="In" parent="." instance=ExtResource("2_efm01")]

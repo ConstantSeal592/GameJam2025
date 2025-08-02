@@ -24,10 +24,6 @@ script = ExtResource("1_mixcd")
 Money = 100
 
 [node name="world" type="Node2D" parent="."]
-visible = false
 script = ExtResource("5_kdryc")
 
 [node name="Grid" parent="world" instance=ExtResource("4_mixcd")]
-script = ExtResource("5_kdryc")
-
-[node name="Grid2" parent="world" instance=ExtResource("4_mixcd")]

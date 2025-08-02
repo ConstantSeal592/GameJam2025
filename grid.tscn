@@ -22,4 +22,5 @@ house = ExtResource("7_b0p4s")
 WaterUpdateIncrement = 3.0
 
 [node name="pipe_info" parent="." instance=ExtResource("5_fqc2p")]
+visible = false
 z_index = 10
