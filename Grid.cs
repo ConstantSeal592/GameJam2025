@@ -118,7 +118,7 @@ public partial class Grid : Node2D {
 
         var struc = instantiatedStructure as Structure;
         for (int i = 0; i < struc.childTiles.GetLength(0); i++) {
-            GD.Print(struc.childTiles[i,0],",",struc.childTiles[i,1]);
+
             var prev = GetCellAtCoords(struc.childTiles[i, 0] + x, struc.childTiles[i, 1] + y);
             if (prev != null) {
                 if (IsPipePiece(prev)) {
@@ -261,7 +261,7 @@ public partial class Grid : Node2D {
         PipePiece[] prevs = GetPipePrev(PipeSeg);
         foreach (PipePiece prev in prevs) {
             if (prev != null) {
-                GD.Print("Calling ", prev.Name);
+
                 PipePeicesToFlow.Add(prev);
             }
         }
@@ -294,7 +294,7 @@ public partial class Grid : Node2D {
                             isEnd = false;
                         }
                     }
-                    GD.Print(isEnd);
+
                     if (isEnd == true) {
                         PipePeicesToFlow.Add(pipe);
                     }
@@ -313,7 +313,6 @@ public partial class Grid : Node2D {
         //     }
         // }
 
-        GD.Print("Starts found", PipePeicesToFlow.Count);
         while (PipePeicesToFlow.Count > 0) {
             FlowWater(PipePeicesToFlow[0]);
             PipePeicesToFlow.RemoveAt(0);
@@ -383,6 +382,17 @@ public partial class Grid : Node2D {
         }
     }
 
+
+    public void BuildPipePath2(int startX, int startY, int endX, int endY, bool IsHologram) {     //lvl needs adding
+
+        Vector2 mousePosition = GetMousePositionRelToGrid();
+        mousePosition = new Vector2(
+            (int)Mathf.Round(mousePosition.X / CellSize - 0.5f),
+            (int)Mathf.Round(mousePosition.Y / CellSize - 0.5f)
+        );
+        GD.Print(string.Join(", ", allThePositions.Select(v => v.ToString())));
+        PlaceCellAtCoords((int)mousePosition.X, (int)mousePosition.Y, 0, false, straight_pipe, IsHologram);
+    }
     public void SpawnWater(int water) {
         GetNode<MainPump>("main_pump").Capacity += water;
     }
@@ -441,7 +451,7 @@ public partial class Grid : Node2D {
         if (coolDown < 0) {
             coolDown = WaterUpdateIncrement;
 
-            GD.Print("Update");
+
             UpdateWaterFlows();
         }
 
@@ -454,7 +464,7 @@ public partial class Grid : Node2D {
 
         if (Input.IsActionJustPressed("rotate")) {
             CurrentRotation = (CurrentRotation + 90) % 720;
-            GD.Print(CurrentRotation);
+
         }
 
         var clickCoords = GetMousePositionRelToGrid();
@@ -488,6 +498,8 @@ public partial class Grid : Node2D {
     public int startDragY = 0;
     public bool isMouseDown = false;
 
+
+    List<Vector2> allThePositions = new List<Vector2>();
     public override void _UnhandledInput(InputEvent @event) {
         var clickCoords = GetMousePositionRelToGrid();
 
@@ -505,11 +517,14 @@ public partial class Grid : Node2D {
 
                 if (CurrentTool == "BuildTool") {
                     if (mouseDown.Pressed) {
-                        startDragX = x;
-                        startDragY = y;
+                        allThePositions.Add(GetMousePositionRelToGrid());
+                        // startDragX = x;
+                        // startDragY = y;
                     }
                     else {
-                        BuildPipePath(startDragX, startDragY, x, y, false);
+                        BuildPipePath2(startDragX, startDragY, x, y, false);
+                        allThePositions = new List<Vector2>();
+                       
                     }
                 }
                 else {
@@ -555,6 +570,7 @@ public partial class Grid : Node2D {
             if (isPipe == true) {
                 info.Show();
             }
+            if (CurrentTool == "BuildTool" && isMouseDown) {allThePositions.Add(GetMousePositionRelToGrid());}
         }
     }
 
