@@ -17,7 +17,6 @@ Quotas = PackedInt32Array(120, 240, 480, 960, 10)
 visible = false
 
 [node name="HUD" parent="GUI" instance=ExtResource("2_v1wow")]
-visible = false
 
 [node name="Person" type="Node" parent="."]
 script = ExtResource("1_mixcd")
