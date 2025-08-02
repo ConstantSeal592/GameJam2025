@@ -209,6 +209,10 @@ offset_bottom = -14.0
 grow_vertical = 0
 text = "Pipe"
 
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
 [connection signal="pressed" from="border/Button" to="." method="_on_shop_pressed"]
 [connection signal="pressed" from="border/BuildTool" to="." method="_on_build_tool_pressed"]
 [connection signal="pressed" from="border/Straight" to="." method="_on_straight_pressed"]
