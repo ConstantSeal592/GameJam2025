@@ -15,7 +15,6 @@ ground = ExtResource("2_65i6o")
 straight_pipe = ExtResource("3_sle3t")
 bent_pipe = ExtResource("4_bghhw")
 main_pump = ExtResource("5_g2qvd")
-WaterUpdateIncrement = 3.0
 
 [node name="pipe_info" parent="." instance=ExtResource("5_fqc2p")]
 z_index = 10

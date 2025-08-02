@@ -24,6 +24,9 @@ public partial class Grid : Node2D {
     public PackedScene main_pump { get; set; }
 
     [Export]
+    public PackedScene House { get; set; }
+
+    [Export]
     public double WaterUpdateIncrement { get; set; }    //Seconds
 
     public int CellSize = 50;

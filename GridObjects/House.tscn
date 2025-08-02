@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cwkbvufibntuv"]
+
+[ext_resource type="Script" uid="uid://fhyrcq2ojv5a" path="res://GridObjects/House.cs" id="1_3tbpj"]
+[ext_resource type="PackedScene" uid="uid://cc6m7kmmy0qtt" path="res://GridObjects/junc_pipe.tscn" id="2_efm01"]
+[ext_resource type="Texture2D" uid="uid://cyy7pbc8poa17" path="res://icon.svg" id="3_5fgno"]
+
+[node name="House" type="Node2D"]
+script = ExtResource("1_3tbpj")
+
+[node name="In" parent="." instance=ExtResource("2_efm01")]
+z_index = 1
+position = Vector2(185, 84)
+MaxCapacity = 90
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = 1
+offset_left = 167.0
+offset_top = 67.0
+offset_right = 203.0
+offset_bottom = 103.0
+texture = ExtResource("3_5fgno")
+expand_mode = 1
