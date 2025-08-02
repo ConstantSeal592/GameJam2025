@@ -24,5 +24,6 @@ Money = 100
 
 [node name="world" type="Node2D" parent="."]
 script = ExtResource("5_kdryc")
+Speed = 5
 
 [node name="Grid" parent="world" instance=ExtResource("4_mixcd")]
