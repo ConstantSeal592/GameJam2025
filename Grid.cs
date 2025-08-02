@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 public partial class Grid : Node2D {
     [Export]
@@ -151,21 +152,17 @@ public partial class Grid : Node2D {
         Marker2D[] markers = new Marker2D[8];
         int index = 0;
 
-        Regex[] regexes = new Regex[2];
-        if (In) {
-            regexes[0] = new Regex(@"^In\d*$");
-        }
-        if (Out) {
-            regexes[1] = new Regex(@"^Out\d*$");
-        }
-
         foreach (Node child in PipeSeg.GetChildren()) {
-            foreach (Regex regex in regexes) {
-                if (regex != null) {
-                    if (regex.IsMatch(child.Name)) {
-                        markers[index] = (Marker2D)child;
-                        index++;
-                    }
+            if (In) {
+                if (((string)child.Name).StartsWith("In")) {
+                    markers[index] = (Marker2D)child;
+                    index++;
+                }
+            }
+            else if (Out) {
+                if (((string)child.Name).StartsWith("Out")) {
+                    markers[index] = (Marker2D)child;
+                    index++;
                 }
             }
         }
@@ -283,7 +280,7 @@ public partial class Grid : Node2D {
                 cell.GetNode<PipePiece>("Out").HasPushedWater = false;
             }
             else if (cell.IsInGroup("Cell")) {
-                if (IsPipePiece(cell)) {
+                if (IsPipePiece(cell) && cell.Visible == true) {
                     var pipe = cell as PipePiece;
 
                     pipe.HasPushedWater = false;
@@ -302,22 +299,15 @@ public partial class Grid : Node2D {
                 }
             }
         }
-
-        //var junc = GetNode("main_pump").GetNode<PipePiece>("In");
-
-        // PipePiece[] prevs = GetPipePrev(junc);
-        // foreach (PipePiece PipeSeg in prevs) {
-        //     GD.Print("P ", PipeSeg);
-        //     if (PipeSeg != null) {
-        //         GD.Print("Inital call ", PipeSeg.Position);
-        //         FlowWater(PipeSeg);
-        //     }
-        // }
+        int counter = 0;
 
         while (PipePeicesToFlow.Count > 0) {
             FlowWater(PipePeicesToFlow[0]);
             PipePeicesToFlow.RemoveAt(0);
+
+            counter++;
         }
+        GD.Print(counter);
     }
 
     public void BuildPipePath(int startX, int startY, int endX, int endY, bool IsHologram) {     //lvl needs adding

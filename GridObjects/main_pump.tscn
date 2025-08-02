@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://m6urhxnstvbd" path="res://GridObjects/MainPump.cs" id="1_e2jbf"]
 [ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="2_bu3hv"]
 [ext_resource type="Texture2D" uid="uid://d2xrb4b5kfjdw" path="res://art/Pump.png" id="3_o7mh5"]
-[ext_resource type="PackedScene" path="res://GridObjects/junc_pipe.tscn" id="4_o7mh5"]
+[ext_resource type="PackedScene" uid="uid://ciot8jlgebs1m" path="res://GridObjects/junc_pipe.tscn" id="4_o7mh5"]
 
 [node name="main_pump" type="Node2D" groups=["Cell", "Structure"]]
 script = ExtResource("1_e2jbf")

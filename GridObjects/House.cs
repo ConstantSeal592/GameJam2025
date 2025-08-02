@@ -51,7 +51,7 @@ public partial class House : Node2D, Structure {
 
 	public void CheckWaterNotSupplied() {
 		if (PureCapacity == 0) {
-			GD.Print("SAHRA MOMENT WAYYYYYYYYYYYYYYYYYYYYY!!!!!!!!!!!");
+			//GD.Print("SAHRA MOMENT WAYYYYYYYYYYYYYYYYYYYYY!!!!!!!!!!!");
 		}
 	}
 
