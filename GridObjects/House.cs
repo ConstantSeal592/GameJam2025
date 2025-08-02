@@ -6,7 +6,6 @@ public partial class House : Node2D, Structure {
 	
 	[Export]
 	public int MaxCapacity { get; set; }
-
 	public int WasteCapacity { get; set; }
 	public int PureCapacity { get; set; }
 	public int Capacity { get; set; }

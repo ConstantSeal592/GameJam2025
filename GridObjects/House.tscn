@@ -7,11 +7,13 @@
 
 [node name="house" type="Node2D" groups=["Cell", "Structure"]]
 script = ExtResource("1_3tbpj")
+MaxCapacity = 15
+BillsMultiplier = 10.0
+WaterUseIncrement = 2.0
 
 [node name="In" parent="." instance=ExtResource("2_efm01")]
 z_index = 1
 position = Vector2(-25, 25)
-MaxCapacity = 90
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = 1
@@ -24,7 +26,6 @@ metadata/_edit_use_anchors_ = true
 [node name="Out" parent="." instance=ExtResource("2_efm01")]
 z_index = 1
 position = Vector2(75, 25)
-MaxCapacity = 90
 
 [node name="ground" parent="." instance=ExtResource("4_8v5ii")]
 position = Vector2(25, 25)

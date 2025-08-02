@@ -1,9 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://ctrswalaspky0"]
+[gd_scene load_steps=12 format=3 uid="uid://ctrswalaspky0"]
 
 [ext_resource type="Script" uid="uid://bkc4mkv4elue7" path="res://Hud.cs" id="1_37p78"]
 [ext_resource type="Texture2D" uid="uid://bjf7ftbk8fm82" path="res://art/seamless-wood-texture-5-900x900.webp" id="2_64ctp"]
 [ext_resource type="Texture2D" uid="uid://c0tkfbx43fmp8" path="res://art/9Slice.png" id="2_640wx"]
 [ext_resource type="Theme" uid="uid://baa0ri8nmrw3p" path="res://art/kenneyUI-yellow.tres" id="3_8sq4i"]
+[ext_resource type="Texture2D" uid="uid://h7m1mrdayjtn" path="res://art/build_1.png" id="5_61f8s"]
+[ext_resource type="Texture2D" uid="uid://bpi0hjx8iddie" path="res://art/straight_pipe_1.png" id="6_g10ll"]
+[ext_resource type="Texture2D" uid="uid://cci8hoitv1mqa" path="res://art/junc_pipe_1.png" id="7_gpiub"]
+[ext_resource type="Texture2D" uid="uid://dcxfo6vaa8wpk" path="res://art/bent_pipe_1.png" id="8_amv7k"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n2snw"]
 bg_color = Color(0.764706, 0.745098, 0.705882, 1)
@@ -110,7 +114,9 @@ offset_top = -173.0
 offset_right = 507.0
 offset_bottom = -102.0
 grow_vertical = 0
-text = "Pipe"
+icon = ExtResource("5_61f8s")
+icon_alignment = 1
+expand_icon = true
 
 [node name="MoneyLabel" type="Label" parent="border"]
 texture_filter = 1
@@ -152,7 +158,8 @@ offset_top = -173.0
 offset_right = 612.0
 offset_bottom = -102.0
 grow_vertical = 0
-text = "Pipe"
+icon = ExtResource("6_g10ll")
+icon_alignment = 1
 
 [node name="Tunnel" type="Button" parent="border"]
 layout_mode = 1
@@ -176,7 +183,8 @@ offset_top = -85.0
 offset_right = 507.0
 offset_bottom = -14.0
 grow_vertical = 0
-text = "Pipe"
+icon = ExtResource("7_gpiub")
+icon_alignment = 1
 
 [node name="Bent" type="Button" parent="border"]
 layout_mode = 1
@@ -188,7 +196,10 @@ offset_top = -173.0
 offset_right = 717.0
 offset_bottom = -102.0
 grow_vertical = 0
-text = "Pipe"
+text = "
+"
+icon = ExtResource("8_amv7k")
+icon_alignment = 1
 
 [node name="level_slider" type="VSlider" parent="border"]
 layout_mode = 0
