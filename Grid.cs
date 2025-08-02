@@ -467,6 +467,7 @@ public partial class Grid : Node2D {
 
     public int startDragX = 0;
     public int startDragY = 0;
+    public bool isMouseDown = false;
 
     public override void _UnhandledInput(InputEvent @event) {
         var clickCoords = GetViewport().GetMousePosition();
@@ -476,6 +477,7 @@ public partial class Grid : Node2D {
 
         if (@event is InputEventMouseButton mouseDown) {
             if (mouseDown.ButtonIndex == MouseButton.Left) {
+                isMouseDown = true;
                 if (CurrentTool == "BuildTool") {
                     if (mouseDown.Pressed) {
                         startDragX = x;
@@ -505,6 +507,9 @@ public partial class Grid : Node2D {
                         PlaceCellAtCoords(x, y, 0, false, ground, false);
                     }
                 }
+            }
+            else {
+                isMouseDown = false;
             }
         }
 
