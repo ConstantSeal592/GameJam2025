@@ -443,7 +443,7 @@ public partial class Grid : Node2D {
         int x = (int)clickCoords.X / CellSize;
         int y = (int)clickCoords.Y / CellSize;
 
-        if (CurrentTool == "BuildTool") {
+        if (CurrentTool == "BuildTool" && isMouseDown) {
             BuildPipePath(startDragX, startDragY, x, y, true);
         }
         else if (CurrentTool == "Straight") {
