@@ -78,15 +78,18 @@ public partial class Grid : Node2D {
         return GetCellAtCoords(newX, newY);
     }
 
-    public void PlaceCellAtCoords(int x, int y, int rotation, bool flip, PackedScene tileType) {
-        var prev = GetCellAtCoords(x, y);
-        if (prev != null) {
-            if (IsPipePiece(prev)) {
-                var pipe = prev as PipePiece;
-                SpawnWater(pipe.Capacity);
+    public void PlaceCellAtCoords(int x, int y, int rotation, bool flip, PackedScene tileType, bool IsHologram) {
+        if (IsHologram == false) {
+            var prev = GetCellAtCoords(x, y);
+            if (prev != null) {
+                if (IsPipePiece(prev)) {
+                    var pipe = prev as PipePiece;
+                    SpawnWater(pipe.Capacity);
+                }
+                prev.Free();
             }
-            prev.Free();
         }
+        GetTree().CallGroup("Hologram", Node.MethodName.Free);
 
         var cell = tileType.Instantiate<Node2D>();
 
@@ -96,6 +99,11 @@ public partial class Grid : Node2D {
             cell.GetNode<Marker2D>("Out").Position = new Vector2(50, 0);
         }
         cell.Rotation = (float)rotation / 180 * Mathf.Pi;
+
+        if (IsHologram) {
+            cell.GetNode<TextureRect>("TextureRect").Modulate = new Color(0, 0, 0, 0.5f);
+            cell.AddToGroup("Hologram");
+        }
 
 
         AddChild(cell);
@@ -124,6 +132,10 @@ public partial class Grid : Node2D {
         node.Position = new Vector2(x * CellSize, y * CellSize);
 
         AddChild(instantiatedStructure);
+    }
+
+    public void SpawnHouse(int x, int y) {
+        PlaceStructureAtCoords(x, y, house);
     }
 
     public bool IsPipePiece(Node2D PipeSeg) {
@@ -304,64 +316,64 @@ public partial class Grid : Node2D {
         }
     }
 
-    public void BuildPipePath(int startX, int startY, int endX, int endY) {     //lvl needs adding
+    public void BuildPipePath(int startX, int startY, int endX, int endY, bool IsHologram) {     //lvl needs adding
         if (MathF.Abs(startX - endX) > MathF.Abs(startY - endY)) {
             if (startX != endX) {
                 for (int x = Mathf.Min(startX, endX); x <= MathF.Max(startX, endX); x++) {
-                    PlaceCellAtCoords(x, startY, (endX < startX) ? 0 : 180, false, straight_pipe);
+                    PlaceCellAtCoords(x, startY, (endX < startX) ? 0 : 180, false, straight_pipe, IsHologram);
                 }
             }
 
             if (startY != endY) {
                 for (int y = Mathf.Min(startY, endY); y <= Mathf.Max(startY, endY); y++) {
-                    PlaceCellAtCoords(endX, y, (endY < startY) ? 90 : 270, false, straight_pipe);
+                    PlaceCellAtCoords(endX, y, (endY < startY) ? 90 : 270, false, straight_pipe, IsHologram);
                 }
             }
 
             if (startX > endX) {
                 if (startY > endY) {
-                    PlaceCellAtCoords(endX, startY, 270, true, bent_pipe);
+                    PlaceCellAtCoords(endX, startY, 270, true, bent_pipe, IsHologram);
                 }
                 else if (endY > startY) {
-                    PlaceCellAtCoords(endX, startY, 270, false, bent_pipe);
+                    PlaceCellAtCoords(endX, startY, 270, false, bent_pipe, IsHologram);
                 }
             }
             else if (endX > startX) {
                 if (startY > endY) {
-                    PlaceCellAtCoords(endX, startY, 90, false, bent_pipe);
+                    PlaceCellAtCoords(endX, startY, 90, false, bent_pipe, IsHologram);
                 }
                 else if (endY > startY) {
-                    PlaceCellAtCoords(endX, startY, 90, true, bent_pipe);
+                    PlaceCellAtCoords(endX, startY, 90, true, bent_pipe, IsHologram);
                 }
             }
         }
         else {
             if (startY != endY) {
                 for (int y = Mathf.Min(startY, endY); y <= Mathf.Max(startY, endY); y++) {
-                    PlaceCellAtCoords(startX, y, (endY < startY) ? 90 : 270, false, straight_pipe);
+                    PlaceCellAtCoords(startX, y, (endY < startY) ? 90 : 270, false, straight_pipe, IsHologram);
                 }
             }
 
             if (startX != endX) {
                 for (int x = Mathf.Min(startX, endX); x <= MathF.Max(startX, endX); x++) {
-                    PlaceCellAtCoords(x, endY, (endX < startX) ? 0 : 180, false, straight_pipe);
+                    PlaceCellAtCoords(x, endY, (endX < startX) ? 0 : 180, false, straight_pipe, IsHologram);
                 }
             }
 
             if (startX > endX) {
                 if (startY > endY) {
-                    PlaceCellAtCoords(startX, endY, 0, false, bent_pipe);
+                    PlaceCellAtCoords(startX, endY, 0, false, bent_pipe, IsHologram);
                 }
                 else if (endY > startY) {
-                    PlaceCellAtCoords(startX, endY, 180, true, bent_pipe);
+                    PlaceCellAtCoords(startX, endY, 180, true, bent_pipe, IsHologram);
                 }
             }
             else if (endX > startX) {
                 if (startY > endY) {
-                    PlaceCellAtCoords(startX, endY, 0, true, bent_pipe);
+                    PlaceCellAtCoords(startX, endY, 0, true, bent_pipe, IsHologram);
                 }
                 else if (endY > startY) {
-                    PlaceCellAtCoords(startX, endY, 180, false, bent_pipe);
+                    PlaceCellAtCoords(startX, endY, 180, false, bent_pipe, IsHologram);
                 }
             }
         }
@@ -376,7 +388,7 @@ public partial class Grid : Node2D {
     public override void _Ready() {
         for (int x = 0; x < XGridSize; x++) {
             for (int y = 0; y < YGridSize; y++) {
-                PlaceCellAtCoords(x, y, 0, false, ground);
+                PlaceCellAtCoords(x, y, 0, false, ground, false);
             }
         }
 
@@ -417,8 +429,34 @@ public partial class Grid : Node2D {
             info.SetText(pipe.Capacity, pipe.MaxCapacity);
         }
 
-        if (Input.IsActionPressed("rotate")) {
+        if (Input.IsActionJustPressed("rotate")) {
             CurrentRotation = (CurrentRotation + 90) % 720;
+            GD.Print(CurrentRotation);
+        }
+
+        var clickCoords = GetViewport().GetMousePosition();
+
+        int x = (int)clickCoords.X / CellSize;
+        int y = (int)clickCoords.Y / CellSize;
+
+        if (CurrentTool == "BuildTool") {
+            BuildPipePath(startDragX, startDragY, x, y, true);
+        }
+        else if (CurrentTool == "Straight") {
+            PlaceCellAtCoords(x, y, CurrentRotation, false, straight_pipe, true);
+        }
+        else if (CurrentTool == "Bent") {
+            PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, bent_pipe, true);
+        }
+        else if (CurrentTool == "Tunnel") {
+            GD.Print("NO TUNNEL");
+            //PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, straight_pipe, true);
+        }
+        else if (CurrentTool == "Junc") {
+            PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, junc_pipe, true);
+        }
+        else if (CurrentTool == "Delete") {
+            PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, ground, true);
         }
     }
 
@@ -427,47 +465,40 @@ public partial class Grid : Node2D {
     public int startDragY = 0;
 
     public override void _UnhandledInput(InputEvent @event) {
+        var clickCoords = GetViewport().GetMousePosition();
+
+        int x = (int)clickCoords.X / CellSize;
+        int y = (int)clickCoords.Y / CellSize;
+
         if (@event is InputEventMouseButton mouseDown) {
             if (mouseDown.ButtonIndex == MouseButton.Left) {
                 if (CurrentTool == "BuildTool") {
-                    var clickCoords = GetViewport().GetMousePosition();
-
-                    int x = (int)clickCoords.X / CellSize;
-                    int y = (int)clickCoords.Y / CellSize;
-
-                    GD.Print(x, y);
-
                     if (mouseDown.Pressed) {
                         startDragX = x;
                         startDragY = y;
                     }
                     else {
-                        BuildPipePath(startDragX, startDragY, x, y);
+                        BuildPipePath(startDragX, startDragY, x, y, false);
                     }
                 }
                 else {
-                    var clickCoords = GetViewport().GetMousePosition();
-
-                    int x = (int)clickCoords.X / CellSize;
-                    int y = (int)clickCoords.Y / CellSize;
-
                     GD.Print(CurrentTool);
-                    
+
                     if (CurrentTool == "Straight") {
-                        PlaceCellAtCoords(x, y, CurrentRotation, false, straight_pipe);
+                        PlaceCellAtCoords(x, y, CurrentRotation, false, straight_pipe, false);
                     }
                     else if (CurrentTool == "Bent") {
-                        PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, bent_pipe);
+                        PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, bent_pipe, false);
                     }
                     else if (CurrentTool == "Tunnel") {
                         GD.Print("NO TUNNEL");
-                        //PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, straight_pipe);
+                        //PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, straight_pipe, false);
                     }
                     else if (CurrentTool == "Junc") {
-                        PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, junc_pipe);
+                        PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, junc_pipe, false);
                     }
                     else if (CurrentTool == "Delete") {
-                        PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, ground);
+                        PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, ground, false);
                     }
                 }
             }
