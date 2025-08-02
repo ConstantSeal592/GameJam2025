@@ -56,5 +56,18 @@ public partial class MainPump : Node2D, Structure {
         }
         return false;
     }
+
+    public void Update() {
+        var In = GetNode<PipePiece>("In");
+        var Out = GetNode<PipePiece>("Out");
+
+        int inTake = (int)MathF.Min(In.Capacity, MaxCapacity - Capacity);
+        In.Capacity -= inTake;
+        Capacity += inTake;
+
+        int outPut = (int)MathF.Min(Out.MaxCapacity - Out.Capacity, Capacity);
+        Out.Capacity += outPut;
+        Capacity -= outPut;
+    }
 } 
 

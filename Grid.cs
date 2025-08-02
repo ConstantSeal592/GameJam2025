@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 public partial class Grid : Node2D {
@@ -39,10 +41,8 @@ public partial class Grid : Node2D {
     }
 
     public Node2D GetCellAtCoords(int x, int y) {
-        GD.Print('C',x, y);
         foreach (Node2D cell in GetChildren()) {
             if (cell.IsInGroup("Structure")) { //Loop through children to see if it does occupy the space
-                GD.Print("Is Structure");
                 foreach (Node child in cell.GetChildren()) {
                     if (child is Node2D) {
                         var cellChild = child as Node2D;
@@ -200,16 +200,21 @@ public partial class Grid : Node2D {
     }
 
     public void FlowWater(PipePiece PipeSeg) {
+        if (PipeSeg.HasPushedWater) {
+            return;
+        }
+
         //Push water to next peice
         PipePiece[] nexts = GetPipeNext(PipeSeg);
 
-        foreach (PipePiece next in nexts) {     
+        foreach (PipePiece next in nexts) {
             //NEEDS REWORKING TO SPLIT EVENLY AT JUNCTIONS
             if (next != null) {
                 int ToFlow = (int)MathF.Min(next.MaxCapacity - next.Capacity, PipeSeg.Capacity);
-                GD.Print("Flowing ", ToFlow);
                 PipeSeg.Capacity -= ToFlow;
                 next.Capacity += ToFlow;
+
+                PipeSeg.HasPushedWater = true;
             }
         }
 
@@ -217,27 +222,61 @@ public partial class Grid : Node2D {
         foreach (PipePiece prev in prevs) {
             if (prev != null) {
                 GD.Print("Calling ", prev.Name);
-                FlowWater(prev);
+                PipePeicesToFlow.Add(prev);
             }
         }
     }
 
-    public void UpdateWaterFlows() {
-        var junc = GetNode("main_pump").GetNode<PipePiece>("In");
+    List<PipePiece> PipePeicesToFlow = new List<PipePiece>();
 
-        foreach (Marker2D m in GetFeederMarkers(junc, true, false)) {
-            if (m != null) {
-                GD.Print(m.Position);
+    public void UpdateWaterFlows() {
+        PipePeicesToFlow = new List<PipePiece>();
+
+        foreach (Node2D cell in GetChildren()) {
+            if (cell.IsInGroup("Structure")) {
+                var struc = cell as Structure;
+                struc.Update();
+
+                PipePeicesToFlow.Add(cell.GetNode<PipePiece>("In"));
+                cell.GetNode<PipePiece>("In").HasPushedWater = false;
+                cell.GetNode<PipePiece>("Out").HasPushedWater = false;
+            }
+            else if (cell.IsInGroup("Cell")) {
+                if (IsPipePiece(cell)) {
+                    var pipe = cell as PipePiece;
+
+                    pipe.HasPushedWater = false;
+
+                    PipePiece[] nexts = GetPipeNext(pipe);
+                    bool isEnd = true;
+                    foreach (PipePiece next in nexts) {
+                        if (next != null) {
+                            isEnd = false;
+                        }
+                    }
+                    GD.Print(isEnd);
+                    if (isEnd == true) {
+                        PipePeicesToFlow.Add(pipe);
+                    }
+                }
             }
         }
 
-        PipePiece[] prevs = GetPipePrev(junc);
-        foreach (PipePiece PipeSeg in prevs) {
-            GD.Print("P ",PipeSeg);
-            if (PipeSeg != null) {
-                GD.Print("Inital call ", PipeSeg.Position);
-                FlowWater(PipeSeg);
-            }
+        //var junc = GetNode("main_pump").GetNode<PipePiece>("In");
+
+        // PipePiece[] prevs = GetPipePrev(junc);
+        // foreach (PipePiece PipeSeg in prevs) {
+        //     GD.Print("P ", PipeSeg);
+        //     if (PipeSeg != null) {
+        //         GD.Print("Inital call ", PipeSeg.Position);
+        //         FlowWater(PipeSeg);
+        //     }
+        // }
+
+        GD.Print("Starts found", PipePeicesToFlow.Count);
+        while (PipePeicesToFlow.Count > 0) {
+            FlowWater(PipePeicesToFlow[0]);
+            PipePeicesToFlow.RemoveAt(0);
         }
     }
 
@@ -328,6 +367,10 @@ public partial class Grid : Node2D {
         coolDown = WaterUpdateIncrement;
     }
 
+    public void PositionPipeOverlay() {
+        
+    }
+
     public override void _Process(double delta) {
         coolDown -= delta;
         if (coolDown < 0) {
@@ -335,6 +378,13 @@ public partial class Grid : Node2D {
 
             GD.Print("Update");
             UpdateWaterFlows();
+        }
+
+        var info = GetNode<PipeInfo>("pipe_info");
+        var cell = GetCellAtPosition((int)info.Position.X,(int)info.Position.Y);
+        if (IsPipePiece(cell)) {
+            var pipe = cell as PipePiece;
+            info.SetText(pipe.Capacity, pipe.MaxCapacity);
         }
     }
 
@@ -344,7 +394,6 @@ public partial class Grid : Node2D {
 
     public override void _UnhandledInput(InputEvent @event) {
         if (@event is InputEventMouseButton mouseDown) {
-            GD.Print(GetViewport().GetMousePosition());
             var clickCoords = GetViewport().GetMousePosition();
 
             int x = (int)clickCoords.X / CellSize;
@@ -372,7 +421,7 @@ public partial class Grid : Node2D {
             if (cell != null) {
                 if (IsPipePiece(cell)) {
                     var pipe = cell as PipePiece;
-                    info.Position = pipe.Position;
+                    info.Position = GetGridRelPos(pipe);
                     info.SetText(pipe.Capacity, pipe.MaxCapacity);
 
                     isPipe = true;

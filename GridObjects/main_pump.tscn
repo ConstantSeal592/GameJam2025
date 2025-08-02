@@ -8,6 +8,7 @@
 [node name="main_pump" type="Node2D" groups=["Cell", "Structure"]]
 script = ExtResource("1_e2jbf")
 ground = ExtResource("2_bu3hv")
+MaxCapacity = 90
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = 1
