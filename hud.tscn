@@ -79,7 +79,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_n2snw")
 text = "  Quota: "
 vertical_alignment = 1
 
-[node name="item1" type="Button" parent="border"]
+[node name="BuildTool" type="Button" parent="border"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -121,7 +121,7 @@ theme_override_styles/background = SubResource("StyleBoxFlat_64ctp")
 theme_override_styles/fill = SubResource("StyleBoxFlat_8sq4i")
 value = 80.0
 
-[node name="item3" type="Button" parent="border"]
+[node name="Straight" type="Button" parent="border"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -133,7 +133,7 @@ offset_bottom = -102.0
 grow_vertical = 0
 text = "Pipe"
 
-[node name="item4" type="Button" parent="border"]
+[node name="Tunnel" type="Button" parent="border"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -145,7 +145,7 @@ offset_bottom = -14.0
 grow_vertical = 0
 text = "Pipe"
 
-[node name="item5" type="Button" parent="border"]
+[node name="Junc" type="Button" parent="border"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -157,7 +157,7 @@ offset_bottom = -14.0
 grow_vertical = 0
 text = "Pipe"
 
-[node name="item6" type="Button" parent="border"]
+[node name="Bent" type="Button" parent="border"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -197,7 +197,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_n2snw")
 text = " pipe lv: "
 vertical_alignment = 1
 
-[node name="item7" type="Button" parent="border"]
+[node name="Delete" type="Button" parent="border"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -210,3 +210,9 @@ grow_vertical = 0
 text = "Pipe"
 
 [connection signal="pressed" from="border/Button" to="." method="_on_shop_pressed"]
+[connection signal="pressed" from="border/BuildTool" to="." method="_on_build_tool_pressed"]
+[connection signal="pressed" from="border/Straight" to="." method="_on_straight_pressed"]
+[connection signal="pressed" from="border/Tunnel" to="." method="_on_tunnel_pressed"]
+[connection signal="pressed" from="border/Junc" to="." method="_on_junc_pressed"]
+[connection signal="pressed" from="border/Bent" to="." method="_on_bent_pressed"]
+[connection signal="pressed" from="border/Delete" to="." method="_on_delete_pressed"]

@@ -20,8 +20,27 @@ public partial class Hud : CanvasLayer
 		var Shop = GetNode<Shop>("/root/Main/game_scene/GUI/Shop");
 		level_slider.MaxValue = Shop.pipe_lv;
 		level_label.Text = " pipe lv: " + level_slider.Value.ToString();
-		
 
+		GetNode<Grid>("/root/Main/game_scene/world/Grid").CurrentLevel = (int)level_slider.Value;
+	}
+
+	private void _on_build_tool_pressed() {
+		GetNode<Grid>("/root/Main/game_scene/world/Grid").CurrentTool = "BuildTool";
+	}
+	private void _on_straight_pressed() {
+		GetNode<Grid>("/root/Main/game_scene/world/Grid").CurrentTool = "Straight";
+	}
+	private void _on_bent_pressed() {
+		GetNode<Grid>("/root/Main/game_scene/world/Grid").CurrentTool = "Bent";
+	}
+	private void _on_tunnel_pressed() {
+		GetNode<Grid>("/root/Main/game_scene/world/Grid").CurrentTool = "Tunnel";
+	}
+	private void _on_junc_pressed() {
+		GetNode<Grid>("/root/Main/game_scene/world/Grid").CurrentTool = "Junc";
+	}
+	private void _on_delete_pressed() {
+		GetNode<Grid>("/root/Main/game_scene/world/Grid").CurrentTool = "Delete";
 	}
 
 	// Called when the node enters the scene tree for the first time.
