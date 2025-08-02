@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ctrswalaspky0"]
+[gd_scene load_steps=13 format=3 uid="uid://ctrswalaspky0"]
 
 [ext_resource type="Script" uid="uid://bkc4mkv4elue7" path="res://Hud.cs" id="1_37p78"]
 [ext_resource type="Texture2D" uid="uid://bjf7ftbk8fm82" path="res://art/seamless-wood-texture-5-900x900.webp" id="2_64ctp"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bpi0hjx8iddie" path="res://art/straight_pipe_1.png" id="6_g10ll"]
 [ext_resource type="Texture2D" uid="uid://cci8hoitv1mqa" path="res://art/junc_pipe_1.png" id="7_gpiub"]
 [ext_resource type="Texture2D" uid="uid://dcxfo6vaa8wpk" path="res://art/bent_pipe_1.png" id="8_amv7k"]
+[ext_resource type="Texture2D" uid="uid://s1ox2ewiocgn" path="res://art/delete.png" id="9_g10ll"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n2snw"]
 bg_color = Color(0.764706, 0.745098, 0.705882, 1)
@@ -171,6 +172,7 @@ offset_top = -85.0
 offset_right = 612.0
 offset_bottom = -14.0
 grow_vertical = 0
+disabled = true
 text = "Pipe"
 
 [node name="Junc" type="Button" parent="border"]
@@ -230,6 +232,7 @@ text = " pipe lv: "
 vertical_alignment = 1
 
 [node name="Delete" type="Button" parent="border"]
+modulate = Color(1, 0.309804, 0.0941176, 1)
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -239,7 +242,9 @@ offset_top = -85.0
 offset_right = 717.0
 offset_bottom = -14.0
 grow_vertical = 0
-text = "Pipe"
+icon = ExtResource("9_g10ll")
+icon_alignment = 1
+expand_icon = true
 
 [connection signal="pressed" from="border/Button" to="." method="_on_shop_pressed"]
 [connection signal="pressed" from="border/BuildTool" to="." method="_on_build_tool_pressed"]

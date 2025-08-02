@@ -34,6 +34,7 @@ public partial class Grid : Node2D {
 
     public string CurrentTool { get; set; }
     public int CurrentLevel { get; set; }
+    public int MyLevel { get; set; }
     public int CurrentRotation { get; set; } = 0;
 
     public int CellSize = 50;
@@ -417,6 +418,10 @@ public partial class Grid : Node2D {
         }
     }
 
+    public void loadLevelCells(int Level) {
+        straight_pipe = GD.Load<PackedScene>("res://GridObjects/lvl" + Level.ToString() +"/straight_pipe.tscn");
+    }
+
     public override void _Ready() {
         GetParent<World>().Position = new Vector2(XGridSize * CellSize - GetViewportRect().Size.X, YGridSize * CellSize - GetViewportRect().Size.Y) * -0.5f;
 
@@ -494,6 +499,12 @@ public partial class Grid : Node2D {
         }
         else if (CurrentTool == "Delete") {
             PlaceCellAtCoords(x, y, 0, false, ground, true);
+        }
+
+        if (MyLevel != CurrentLevel) {
+            MyLevel = CurrentLevel;
+
+            loadLevelCells(CurrentLevel);
         }
     }
 
