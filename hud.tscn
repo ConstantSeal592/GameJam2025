@@ -50,8 +50,14 @@ expand_mode = 1
 
 [node name="border2" type="NinePatchRect" parent="border"]
 modulate = Color(0.984314, 0.788235, 0.568627, 1)
-offset_right = 1920.0
-offset_bottom = 206.0
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -206.0
+grow_horizontal = 2
+grow_vertical = 0
 texture = ExtResource("2_640wx")
 region_rect = Rect2(0, 0, 150, 150)
 patch_margin_left = 50
