@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://0n5lqn5ai7du"]
+[gd_scene load_steps=8 format=3 uid="uid://0n5lqn5ai7du"]
 
 [ext_resource type="Script" uid="uid://cr8qtl2424upb" path="res://Person.cs" id="1_mixcd"]
 [ext_resource type="Script" uid="uid://d3lilcc4okkyk" path="res://GameScene.cs" id="1_mj2jn"]
@@ -7,15 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://ctrswalaspky0" path="res://hud.tscn" id="2_v1wow"]
 [ext_resource type="PackedScene" uid="uid://b0opfsesci17a" path="res://grid.tscn" id="4_mixcd"]
 [ext_resource type="Script" uid="uid://mw1rlaqft5j2" path="res://World.cs" id="5_kdryc"]
-[ext_resource type="PackedScene" uid="uid://eyxevf1wcjhx" path="res://win.tscn" id="8_e35lh"]
-[ext_resource type="PackedScene" uid="uid://c4y6fyaj2gihw" path="res://lose.tscn" id="9_udeyl"]
 
 [node name="game_scene" type="Node2D"]
 visible = false
 script = ExtResource("1_mj2jn")
 Quotas = PackedInt32Array(200, 500, 1000, 2000, 10)
-WinScene = ExtResource("8_e35lh")
-LoseScene = ExtResource("9_udeyl")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 modulate = Color(0.6, 0.6, 0.6, 1)
