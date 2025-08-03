@@ -30,11 +30,11 @@ corner_radius_bottom_left = 10
 script = ExtResource("1_viryw")
 WTP_speed = PackedInt32Array(10, 20, 30, 40)
 WTP_efficiency = PackedInt32Array(10, 20, 30, 40)
-WTP_capacity = PackedInt32Array(200, 250, 300, 500, 750, 1000)
-Pipe_upgrade = PackedInt32Array(0, 200, 300)
+WTP_capacity = PackedInt32Array(50, 100, 150, 200, 250, 300)
+Pipe_upgrade = PackedInt32Array(0, 160, 250)
 Pipe_capacities = PackedInt32Array(10, 20, 30)
-TopUpVolume = 30
-PricePerUnitWater = 3.0
+TopUpVolume = 40
+PricePerUnitWater = 2.0
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = 5

@@ -13,7 +13,7 @@ config_version=5
 config/name="GameJam2025"
 run/main_scene="uid://ct10fs6jlhqtv"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://cci8hoitv1mqa"
 
 [display]
 
