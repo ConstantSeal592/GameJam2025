@@ -12,4 +12,5 @@ public interface Pipe {
     public int Capacity { get; set; }
     public bool HasPushedWater { get; set; }
     public bool IsPureWater { get; set; }
+    public int Cost { get; set; }
 }

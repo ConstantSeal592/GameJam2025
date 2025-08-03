@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://diwwjstrftcn1"]
+
+[ext_resource type="Texture2D" uid="uid://cstiuox6st64w" path="res://art/stone.png" id="1_k2h0c"]
+
+[node name="stone" type="Node2D" groups=["Cell", "Stone"]]
+
+[node name="ColorRect" type="TextureRect" parent="."]
+clip_contents = true
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 25.0
+mouse_filter = 2
+texture = ExtResource("1_k2h0c")

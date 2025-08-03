@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" uid="uid://cawl3w36gbjbk" path="res://GridObjects/PipePiece.cs" id="1_i7voi"]
 [ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="1_tag0i"]
-[ext_resource type="Texture2D" uid="uid://cci8hoitv1mqa" path="res://art/junc_pipe_1.png" id="2_i7voi"]
+[ext_resource type="Texture2D" uid="uid://f08myr3464gu" path="res://art/junc_pipe_3.png" id="3_frmhw"]
 [ext_resource type="Texture2D" uid="uid://b0glwf28vljnc" path="res://art/junc_pipe_holo.png" id="4_6vg7p"]
 
 [node name="junc_pipe" type="Node2D" groups=["Cell", "Pipe"]]
 script = ExtResource("1_i7voi")
-MaxCapacity = 10
-Cost = 20
+MaxCapacity = 30
+Cost = 150
 
 [node name="ground" parent="." instance=ExtResource("1_tag0i")]
 
@@ -17,7 +17,7 @@ offset_left = -25.0
 offset_top = -25.0
 offset_right = 25.0
 offset_bottom = 25.0
-texture = ExtResource("2_i7voi")
+texture = ExtResource("3_frmhw")
 metadata/_edit_use_anchors_ = true
 
 [node name="In1" type="Marker2D" parent="."]

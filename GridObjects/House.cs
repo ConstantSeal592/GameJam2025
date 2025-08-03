@@ -32,6 +32,7 @@ public partial class House : Node2D, Structure {
 
 		int outPut = (int)MathF.Min(Out.MaxCapacity - Out.Capacity, WasteCapacity);
 		Out.Capacity += outPut;
+		Out.IsPureWater = false;
 		WasteCapacity -= outPut;
 
 		Capacity = WasteCapacity + PureCapacity;
@@ -47,6 +48,8 @@ public partial class House : Node2D, Structure {
 		int convert = (int)MathF.Min(PureCapacity, WaterUsedPerUpdate);
 		PureCapacity -= convert;
 		WasteCapacity += convert;
+
+		GetNode<Label>("Capacity").Text = Capacity.ToString();
 	}
 
 	public void CheckWaterNotSupplied() {
@@ -57,7 +60,7 @@ public partial class House : Node2D, Structure {
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
-		GetNode<Label>("Label").Text = WaterUsedPerUpdate.ToString();
+		GetNode<Label>("PerUpdate").Text = WaterUsedPerUpdate.ToString();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

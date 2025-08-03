@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" uid="uid://cawl3w36gbjbk" path="res://GridObjects/PipePiece.cs" id="1_4yqjd"]
 [ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="1_brrdj"]
-[ext_resource type="Texture2D" uid="uid://dx5e70gqb0bhg" path="res://art/bent_pipe_2.png" id="3_12cq3"]
+[ext_resource type="Texture2D" uid="uid://c7f5yrclccwbg" path="res://art/bent_pipe_3.png" id="3_7t3in"]
 [ext_resource type="Texture2D" uid="uid://dwbi8784jv0e" path="res://art/bent_pipe_holo.png" id="4_b82n1"]
 
 [node name="bent_pipe" type="Node2D" groups=["Cell", "Pipe"]]
 script = ExtResource("1_4yqjd")
-MaxCapacity = 20
-Cost = 15
+MaxCapacity = 30
+Cost = 50
 
 [node name="ground" parent="." instance=ExtResource("1_brrdj")]
 
@@ -18,7 +18,7 @@ offset_top = -25.0
 offset_right = 25.0
 offset_bottom = 25.0
 mouse_filter = 2
-texture = ExtResource("3_12cq3")
+texture = ExtResource("3_7t3in")
 
 [node name="In" type="Marker2D" parent="."]
 position = Vector2(0, 50)

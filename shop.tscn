@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://ciewynib14ctu"]
+[gd_scene load_steps=9 format=3 uid="uid://ciewynib14ctu"]
 
 [ext_resource type="Script" uid="uid://ctcghc2o3nywu" path="res://Shop.cs" id="1_viryw"]
 [ext_resource type="Theme" uid="uid://bb6vwl0h1flws" path="res://art/kenneyUI-blue.tres" id="2_blqjs"]
 [ext_resource type="Theme" uid="uid://cwfysqqklkevc" path="res://art/kenneyUI-green.tres" id="2_e7rdd"]
+[ext_resource type="Texture2D" uid="uid://c0tkfbx43fmp8" path="res://art/9Slice.png" id="2_gmb2m"]
 [ext_resource type="Theme" uid="uid://dspaqfvd2rase" path="res://art/kenneyUI-red.tres" id="4_6lah5"]
 [ext_resource type="FontFile" uid="uid://b13nthgt0f58e" path="res://art/kenvector_future.ttf" id="5_gmb2m"]
 
@@ -29,9 +30,11 @@ corner_radius_bottom_left = 10
 script = ExtResource("1_viryw")
 WTP_speed = PackedInt32Array(10, 20, 30, 40)
 WTP_efficiency = PackedInt32Array(10, 20, 30, 40)
-WTP_capacity = PackedInt32Array(10, 20, 30, 40)
+WTP_capacity = PackedInt32Array(100, 200, 300, 400, 500, 600)
 Pipe_upgrade = PackedInt32Array(10, 20, 30, 40)
 Pipe_capacities = PackedInt32Array(10, 20, 30)
+TopUpVolume = 15
+PricePerUnitWater = 5.0
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = 5
@@ -43,6 +46,23 @@ offset_right = 929.0
 offset_bottom = 858.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rplqf")
+
+[node name="border2" type="NinePatchRect" parent="Panel"]
+modulate = Color(0.984314, 0.788235, 0.568627, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_gmb2m")
+region_rect = Rect2(0, 0, 150, 150)
+patch_margin_left = 50
+patch_margin_top = 50
+patch_margin_right = 50
+patch_margin_bottom = 50
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="pipe_upg" type="Button" parent="Panel"]
 layout_mode = 1
@@ -85,6 +105,7 @@ offset_right = 879.0
 offset_bottom = -198.0
 grow_vertical = 0
 theme = ExtResource("2_e7rdd")
+disabled = true
 text = " upgrade WTP  speed
 (£ )"
 autowrap_mode = 3
@@ -100,6 +121,7 @@ offset_right = 1104.0
 offset_bottom = -198.0
 grow_vertical = 0
 theme = ExtResource("2_e7rdd")
+disabled = true
 text = " upgrade WTP efficiency 
 (£ )"
 autowrap_mode = 3
@@ -116,7 +138,7 @@ offset_bottom = -47.0
 grow_vertical = 0
 theme = ExtResource("2_blqjs")
 text = "top up water 
-(£ )"
+£"
 autowrap_mode = 3
 
 [node name="close" type="Button" parent="Panel"]

@@ -16,6 +16,9 @@ public partial class Grid : Node2D {
     public PackedScene ground { get; set; }
 
     [Export]
+    public PackedScene stone { get; set; }
+
+    [Export]
     public PackedScene straight_pipe { get; set; }
 
     [Export]
@@ -32,6 +35,9 @@ public partial class Grid : Node2D {
 
     [Export]
     public double WaterUpdateIncrement { get; set; }    //Seconds
+
+    [Export]
+    public double WaterMaxUpdateTime { get; set; } //Milliseconds
 
     public string CurrentTool { get; set; }
     public int CurrentLevel { get; set; }
@@ -52,7 +58,15 @@ public partial class Grid : Node2D {
         return pos;
     }
 
+    private Dictionary<Vector2, Node2D> _cellLookup;
     public Node2D GetCellAtCoords(int x, int y) {
+        _cellLookup.TryGetValue(new Vector2(x, y), out var Dictcell);
+
+        if (Dictcell != null && GodotObject.IsInstanceValid(Dictcell)) {
+            return Dictcell;
+        }
+
+
         foreach (Node2D cell in GetChildren()) {
             if (cell.IsInGroup("Structure")) { //Loop through children to see if it does occupy the space
                 foreach (Node child in cell.GetChildren()) {
@@ -60,6 +74,7 @@ public partial class Grid : Node2D {
                         var cellChild = child as Node2D;
                         if (GetGridRelPos(cellChild).X == x * CellSize + 0.5f * CellSize && GetGridRelPos(cellChild).Y == y * CellSize + 0.5f * CellSize) {
                             if (child.IsInGroup("Cell")) {
+                                _cellLookup[new Vector2(x, y)] = cellChild;
                                 return cellChild;
                             }
                         }
@@ -68,6 +83,7 @@ public partial class Grid : Node2D {
             }
             else if (cell.IsInGroup("Cell") && !cell.IsInGroup("Hologram")) {
                 if (cell.Position.X == x * CellSize + 0.5f * CellSize && cell.Position.Y == y * CellSize + 0.5f * CellSize) {
+                    _cellLookup[new Vector2(x, y)] = cell;
                     return cell;
                 }
             }
@@ -80,10 +96,45 @@ public partial class Grid : Node2D {
         return GetCellAtCoords(newX, newY);
     }
 
+    public bool CanPlayerAfford(int x, int y ,PackedScene tileType) {
+        var cell = tileType.Instantiate<PipePiece>();
+
+        int cost = cell.Cost;
+        var plr = GetNode<Person>("/root/Main/game_scene/Person");
+
+        var prev = GetCellAtCoords(x, y);
+        if (prev != null) {
+            if (prev.GetParent() != this) {
+                //part of a structure
+                return false;
+            }
+            if (prev.IsInGroup("Stone")) {
+                return false;
+            }
+            if (prev.Visible == false) {
+                return false;
+            }
+        }
+
+        if (plr.Money >= cost) {
+                plr.Money -= cost;
+                return true;
+            }
+            else {
+                GD.Print("Not enough moolah");
+                return false;
+            }
+    }
+
     public void PlaceCellAtCoords(int x, int y, int rotation, bool flip, PackedScene tileType, bool IsHologram) {
         if (IsHologram == false) {
             var prev = GetCellAtCoords(x, y);
             if (prev != null) {
+                if (prev.GetParent() != this) {
+                    //must be part of a structure
+                    return;
+                }
+
                 if (IsPipePiece(prev)) {
                     var pipe = prev as PipePiece;
                     SpawnWater(pipe.Capacity);
@@ -110,6 +161,9 @@ public partial class Grid : Node2D {
             }
             cell.AddToGroup("Hologram");
         }
+        else {
+            _cellLookup[new Vector2(x, y)] = cell;
+        }
 
 
         AddChild(cell);
@@ -128,6 +182,8 @@ public partial class Grid : Node2D {
                     SpawnWater(pipe.Capacity);
                 }
                 prev.Free();
+
+                _cellLookup.Remove(new Vector2(x, y));
             }
             else {
                 GD.Print("not found");
@@ -142,6 +198,9 @@ public partial class Grid : Node2D {
 
     public void SpawnHouse(int x, int y) {
         PlaceStructureAtCoords(x, y, house);
+    }
+    public void UpgradePumpCapacity() {
+        GetNode<MainPump>("main_pump").UpgradePumpCapacity();
     }
 
     public bool IsPipePiece(Node2D PipeSeg) {
@@ -238,17 +297,26 @@ public partial class Grid : Node2D {
         //Push water to next peice
         PipePiece[] nexts = GetPipeNext(PipeSeg);
 
+        int NoOut = 0;
+        foreach (PipePiece next in nexts) {
+            if (next != null) {
+                NoOut++;
+            }
+        }
+
         foreach (PipePiece next in nexts) {
             //NEEDS REWORKING TO SPLIT EVENLY AT JUNCTIONS
             if (next != null) {
                 if (next.IsPureWater == PipeSeg.IsPureWater || next.Capacity == 0) {
-                    int ToFlow = (int)MathF.Min(next.MaxCapacity - next.Capacity, PipeSeg.Capacity);
+                    int ToFlow = (int)MathF.Min(next.MaxCapacity - next.Capacity, (int)(1 / (float)NoOut * (float)PipeSeg.Capacity));
                     PipeSeg.Capacity -= ToFlow;
                     next.Capacity += ToFlow;
 
                     next.IsPureWater = PipeSeg.IsPureWater;
 
                     PipeSeg.HasPushedWater = true;
+
+                    NoOut--;
                 }
                 else {
                     GD.Print("Water type mix!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -267,7 +335,7 @@ public partial class Grid : Node2D {
 
     List<PipePiece> PipePeicesToFlow = new List<PipePiece>();
 
-    public void UpdateWaterFlows() {
+    public void NewUpdateWaterFlows() {
         PipePeicesToFlow = new List<PipePiece>();
 
         foreach (Node2D cell in GetChildren()) {
@@ -299,18 +367,44 @@ public partial class Grid : Node2D {
                 }
             }
         }
-        int counter = 0;
 
-        while (PipePeicesToFlow.Count > 0) {
-            FlowWater(PipePeicesToFlow[0]);
-            PipePeicesToFlow.RemoveAt(0);
+        ContinueUpdateWaterFlows();
+    }
 
-            counter++;
+    public void ContinueUpdateWaterFlows() {
+        ulong startTime = Time.GetTicksMsec();
+
+        while (PipePeicesToFlow.Count > 0 && Time.GetTicksMsec() - startTime < WaterMaxUpdateTime) {
+            var next = PipePeicesToFlow[0];
+            if (next != null && GodotObject.IsInstanceValid(next)) {
+                FlowWater(PipePeicesToFlow[0]);
+                PipePeicesToFlow.RemoveAt(0);
+            }
         }
-        GD.Print(counter);
     }
 
     public void BuildPipePath(int startX, int startY, int endX, int endY, bool IsHologram) {     //lvl needs adding
+        int cost = 0;
+        var straight = straight_pipe.Instantiate<PipePiece>();
+        var bent = bent_pipe.Instantiate<PipePiece>();
+
+        cost += straight.Cost * (int)MathF.Max(Mathf.Abs(startX - endX) + ((startY == endY) ? 1 : 0), 0);
+        cost += straight.Cost * (int)Mathf.Max(Mathf.Abs(startY - endY) + ((startX == endX) ? 1 :0), 0);
+        cost += (startX == endX || startY == endY) ? 0 : bent.Cost;
+
+
+        var plr = GetNode<Person>("/root/Main/game_scene/Person");
+
+        if (IsHologram == false) {
+            if (plr.Money >= cost) {
+                plr.Money -= cost;
+            }
+            else {
+                GetTree().CallGroup("Hologram", Node.MethodName.Free);
+                return;
+            }
+        }
+
         if (MathF.Abs(startX - endX) > MathF.Abs(startY - endY)) {
             if (startX != endX) {
                 for (int x = Mathf.Min(startX, endX); x <= MathF.Max(startX, endX); x++) {
@@ -410,12 +504,53 @@ public partial class Grid : Node2D {
 
     public void loadLevelCells(int Level) {
         straight_pipe = GD.Load<PackedScene>("res://GridObjects/lvl" + Level.ToString() + "/straight_pipe.tscn");
-        junc_pipe = GD.Load<PackedScene>("res://GridObjects/lvl" + Level.ToString() +"/junc_pipe.tscn");
-        bent_pipe = GD.Load<PackedScene>("res://GridObjects/lvl" + Level.ToString() +"/bent_pipe.tscn");
+        junc_pipe = GD.Load<PackedScene>("res://GridObjects/lvl" + Level.ToString() + "/junc_pipe.tscn");
+        bent_pipe = GD.Load<PackedScene>("res://GridObjects/lvl" + Level.ToString() + "/bent_pipe.tscn");
+    }
+
+    public void LoadFromTileMap() {
+        var tilemap = GetNode<TileMapLayer>("TileMapLayer");
+
+        int PumpX = 24;
+        int PumpY = 24;
+
+        List<Vector2> HousePoses = new List<Vector2>();
+
+        for (int x = 0; x < XGridSize; x++) {
+            for (int y = 0; y < YGridSize; y++) {
+                int id = tilemap.GetCellSourceId(new Vector2I(x, y));
+                if (id == 3) {
+                    //stone
+                    PlaceCellAtCoords(x, y, 0, false, stone, false);
+                }
+                else if (id == 1) {
+                    //house
+                    HousePoses.Add(new Vector2(x, y));
+                }
+                else if (id == 2) {
+                    //pump
+                    PumpX = x;
+                    PumpY = y;
+                }
+                else {
+                    PlaceCellAtCoords(x, y, 0, false, ground, false);
+                }
+            }
+        }
+
+        foreach (Vector2 pos in HousePoses) {
+            PlaceStructureAtCoords((int)pos.X, (int)pos.Y, house);
+        }
+
+        PlaceStructureAtCoords(PumpX, PumpY, main_pump);
+
+        tilemap.Free();
     }
 
     public override void _Ready() {
         GetParent<World>().Position = new Vector2(XGridSize * CellSize - GetViewportRect().Size.X, YGridSize * CellSize - GetViewportRect().Size.Y) * -0.5f;
+
+        _cellLookup = new Dictionary<Vector2, Node2D>(XGridSize * YGridSize);
 
         for (int x = 0; x < XGridSize; x++) {
             for (int y = 0; y < YGridSize; y++) {
@@ -433,13 +568,21 @@ public partial class Grid : Node2D {
         // PlaceCellAtCoords(7, 4, 270, true, bent_pipe);
         // PlaceCellAtCoords(10, 4, 360, true, bent_pipe);
 
-        PlaceStructureAtCoords(20, 20, house);
-        PlaceStructureAtCoords(28, 18, house);
-        PlaceStructureAtCoords(17, 26, house);
-        PlaceStructureAtCoords(30, 30, house);
-        PlaceStructureAtCoords(24, 32, house);
+        // PlaceStructureAtCoords(20, 20, house);
+        // // PlaceStructureAtCoords(28, 18, house);
+        // // PlaceStructureAtCoords(17, 26, house);
+        // PlaceStructureAtCoords(30, 30, house);
+        // // PlaceStructureAtCoords(24, 32, house);
 
-        PlaceStructureAtCoords(24, 24, main_pump);
+        // for (int i = 0; i < NoHouses; i++) {
+        //     int x = (int)GD.RandRange(1, XGridSize - 3);
+        //     int y = (int)GD.RandRange(1, YGridSize - 3);
+        //     PlaceStructureAtCoords(x, y, house);
+        // }
+
+        // PlaceStructureAtCoords(24, 24, main_pump);
+
+        LoadFromTileMap();
 
         coolDown = WaterUpdateIncrement;
 
@@ -453,14 +596,17 @@ public partial class Grid : Node2D {
             coolDown = WaterUpdateIncrement;
 
 
-            UpdateWaterFlows();
+            NewUpdateWaterFlows();
+        }
+        else {
+            ContinueUpdateWaterFlows();
         }
 
         var info = GetNode<PipeInfo>("pipe_info");
         var cell = GetCellAtPosition((int)info.Position.X, (int)info.Position.Y);
         if (IsPipePiece(cell)) {
             var pipe = cell as PipePiece;
-            info.SetText(pipe.Capacity, pipe.MaxCapacity);
+            info.SetText(pipe.Capacity, pipe.MaxCapacity, pipe.IsPureWater);
         }
 
         if (Input.IsActionJustPressed("rotate")) {
@@ -524,8 +670,8 @@ public partial class Grid : Node2D {
 
                 if (CurrentTool == "BuildTool") {
                     if (mouseDown.Pressed) {
-                        x = startDragX;
-                        y = startDragY;
+                        startDragX = x;
+                        startDragY = y;
                         // var mousePosition = GetMousePositionRelToGrid();
                         // mousePosition = new Vector2(
                         //     (int)Mathf.Round(mousePosition.X / CellSize - 0.5f),
@@ -539,65 +685,71 @@ public partial class Grid : Node2D {
                         allThePositions = new List<Vector2>();
 
                     }
-                    }
-                    else {
-                        GD.Print(CurrentTool);
+                }
+                else {
+                    GD.Print(CurrentTool);
 
-                        if (CurrentTool == "Straight") {
+                    if (CurrentTool == "Straight") {
+                        if (CanPlayerAfford(x, y, straight_pipe)) {
                             PlaceCellAtCoords(x, y, CurrentRotation, false, straight_pipe, false);
                         }
-                        else if (CurrentTool == "Bent") {
+                    }
+                    else if (CurrentTool == "Bent") {
+                        if (CanPlayerAfford(x, y, bent_pipe)) {
                             PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? true : false, bent_pipe, false);
                         }
-                        else if (CurrentTool == "Tunnel") {
-                            GD.Print("NO TUNNEL");
-                            //PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, straight_pipe, false);
-                        }
-                        else if (CurrentTool == "Junc") {
+                    }
+                    else if (CurrentTool == "Tunnel") {
+                        GD.Print("NO TUNNEL");
+                        //PlaceCellAtCoords(x, y, CurrentRotation, (CurrentRotation >= 360) ? false : true, straight_pipe, false);
+                    }
+                    else if (CurrentTool == "Junc") {
+                        if (CanPlayerAfford(x, y, junc_pipe)) {
                             PlaceCellAtCoords(x, y, 0, false, junc_pipe, false);
                         }
-                        else if (CurrentTool == "Delete") {
-                            PlaceCellAtCoords(x, y, 0, false, ground, false);
-                        }
+                    }
+                    else if (CurrentTool == "Delete") {
+                        PlaceCellAtCoords(x, y, 0, false, ground, false);
                     }
                 }
-            }
-
-            else if (@event is InputEventMouseMotion mouseMove) {
-                var info = GetNode<PipeInfo>("pipe_info");
-
-                var cell = GetCellAtPosition((int)GetMousePositionRelToGrid().X, (int)GetMousePositionRelToGrid().Y);
-                bool isPipe = false;
-
-                if (cell != null) {
-                    if (IsPipePiece(cell)) {
-                        var pipe = cell as PipePiece;
-                        info.Position = GetGridRelPos(pipe);
-                        info.SetText(pipe.Capacity, pipe.MaxCapacity);
-
-                        isPipe = true;
-                    }
-                }
-
-                info.Hide();
-                if (isPipe == true) {
-                    info.Show();
-                }
-                if (CurrentTool == "BuildTool" && isMouseDown) {
-
-
-                    // var mousePosition = GetMousePositionRelToGrid();
-                    // mousePosition = new Vector2(
-                    //     (int)Mathf.Round(mousePosition.X / CellSize - 0.5f),
-                    //     (int)Mathf.Round(mousePosition.Y / CellSize - 0.5f)
-                    // );
-                    // if (!allThePositions.Contains(mousePosition)) {
-                    //     allThePositions.Add(mousePosition);
-                    }
-                }
-
             }
         }
 
-    
+        else if (@event is InputEventMouseMotion mouseMove) {
+            var info = GetNode<PipeInfo>("pipe_info");
+
+            var cell = GetCellAtPosition((int)GetMousePositionRelToGrid().X, (int)GetMousePositionRelToGrid().Y);
+            bool isPipe = false;
+
+            if (cell != null) {
+                if (IsPipePiece(cell)) {
+                    var pipe = cell as PipePiece;
+                    info.Position = GetGridRelPos(pipe);
+                    info.SetText(pipe.Capacity, pipe.MaxCapacity, pipe.IsPureWater);
+
+                    isPipe = true;
+                }
+            }
+
+            info.Hide();
+            if (isPipe == true) {
+                info.Show();
+            }
+            if (CurrentTool == "BuildTool" && isMouseDown) {
+
+
+                // var mousePosition = GetMousePositionRelToGrid();
+                // mousePosition = new Vector2(
+                //     (int)Mathf.Round(mousePosition.X / CellSize - 0.5f),
+                //     (int)Mathf.Round(mousePosition.Y / CellSize - 0.5f)
+                // );
+                // if (!allThePositions.Contains(mousePosition)) {
+                //     allThePositions.Add(mousePosition);
+            }
+        }
+
+    }
+}
+
+
 

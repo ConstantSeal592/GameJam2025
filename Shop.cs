@@ -28,6 +28,11 @@ public partial class Shop : CanvasLayer
 
 	int[] Pipe_capacities { get; set; } = new int[3];
 
+	[Export]
+	public int TopUpVolume { get; set; }
+	[Export]
+	public float PricePerUnitWater { get; set; }
+
 
 	private void _on_close_pressed() {
 
@@ -56,6 +61,7 @@ public partial class Shop : CanvasLayer
 		if (capacity_max == false && Person.Money >= WTP_capacity[capacity_lv]) {
 			Person.Money -= WTP_capacity[capacity_lv];
 			capacity_lv++;
+			GetNode<Grid>("/root/Main/game_scene/world/Grid").UpgradePumpCapacity();
 		}
 
 		if (capacity_lv == WTP_capacity.Length) {
@@ -94,19 +100,27 @@ public partial class Shop : CanvasLayer
 		
 	}
 
-	private void  _on_top_up_pressed()
-	{
+	private void _on_top_up_pressed() {
 		//will work diffenernty
+		//WHY DOES PERSON HAVE A CAPACITY?????
+
+		// var Person = GetNode<Person>("/root/Main/game_scene/Person");
+		// int cost = (int)(Person.WaterCapacity - Person.Water);
+		// if (Person.Water < Person.WaterCapacity && Person.Money>cost) {
+		// 	Person.Money -= cost;
+		// 	Person.Water = Person.WaterCapacity;
+		// }
+
 		var Person = GetNode<Person>("/root/Main/game_scene/Person");
-		int cost = (int)(Person.WaterCapacity - Person.Water);
-		if (Person.Water < Person.WaterCapacity && Person.Money>cost) {
-			Person.Money -= cost;
-			Person.Water = Person.WaterCapacity;
+		var Grid = GetNode<Grid>("/root/Main/game_scene/world/Grid");
+		if (Person.Money >= TopUpVolume * PricePerUnitWater) {
+			Grid.SpawnWater(TopUpVolume);
+			Person.Money -= (int)(TopUpVolume * PricePerUnitWater);
 		}
 		
 	}
 	public override void _Ready() {
-
+		GetNode<Button>("Panel/top_up").Text += ((int)(TopUpVolume * PricePerUnitWater)).ToString();
 	}
 
 
@@ -140,7 +154,6 @@ public partial class Shop : CanvasLayer
 			GetNode<Button>("Panel/capacity_upg").Text = " upgrade WTP capacity\n£ " + WTP_capacity[capacity_lv];
 		}
 		var Person = GetNode<Person>("/root/Main/game_scene/Person");
-		GetNode<Button>("Panel/top_up").Text = "top up water £ " + (int)(Person.WaterCapacity - Person.Water);
 
 
 		var slider = GetNode<VSlider>("/root/Main/game_scene/GUI/HUD/border/level_slider");

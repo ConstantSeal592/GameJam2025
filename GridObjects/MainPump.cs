@@ -44,6 +44,12 @@ public partial class MainPump : Node2D, Structure {
         }
     }
 
+    public override void _Process(double delta) {
+        GetNode<Label>("MaxCapacity").Text = MaxCapacity.ToString();
+        GetNode<Label>("Capacity").Text = Capacity.ToString();
+    }
+
+
     // public bool IsOccupingCoords(int x, int y) {
     //     int thisX = (int)this.Position.X / CellSize;
     //     int thisY = (int)this.Position.Y / CellSize;
@@ -67,6 +73,12 @@ public partial class MainPump : Node2D, Structure {
         int inTake = (int)MathF.Min(In.Capacity, MaxCapacity - Capacity);
         In.Capacity -= inTake;
         Capacity += inTake;
+    }
+
+    public void UpgradePumpCapacity() {
+        MaxCapacity += 10;
+        GetNode<PipePiece>("In").MaxCapacity += 10;
+        GetNode<PipePiece>("Out").MaxCapacity += 10;
     }
 } 
 

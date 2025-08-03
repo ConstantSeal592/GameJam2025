@@ -3,7 +3,7 @@ using System;
 
 public partial class Hud : CanvasLayer
 {
-	
+	private int PrevSliderLevel = 0;
 
 
 	private void _on_shop_pressed()
@@ -15,13 +15,24 @@ public partial class Hud : CanvasLayer
 	public void UpdateMoneyAndSlider() {
 		var Person = GetNode<Person>("/root/Main/game_scene/Person");
 		GetNode<Label>("border/MoneyLabel").Text = "£" + Person.Money.ToString();
+
+		//You can do relative paths????
 		var level_label = GetNode<Label>("/root/Main/game_scene/GUI/HUD/border/level_label");
 		var level_slider = GetNode<VSlider>("/root/Main/game_scene/GUI/HUD/border/level_slider");
+
 		var Shop = GetNode<Shop>("/root/Main/game_scene/GUI/Shop");
 		level_slider.MaxValue = Shop.pipe_lv;
 		level_label.Text = " pipe lv: " + level_slider.Value.ToString();
 
 		GetNode<Grid>("/root/Main/game_scene/world/Grid").CurrentLevel = (int)level_slider.Value;
+
+		if (PrevSliderLevel != (int)level_slider.Value) {
+			PrevSliderLevel = (int)level_slider.Value;
+			GetNode<Button>("border/Straight").Icon = GD.Load<Texture2D>("res://art/straight_pipe_" + PrevSliderLevel.ToString() + ".png");
+			GetNode<Button>("border/Bent").Icon = GD.Load<Texture2D>("res://art/bent_pipe_" + PrevSliderLevel.ToString() + ".png");
+			GetNode<Button>("border/Junc").Icon = GD.Load<Texture2D>("res://art/junc_pipe_" + PrevSliderLevel.ToString() + ".png");
+			GetNode<Button>("border/BuildTool").Icon = GD.Load<Texture2D>("res://art/build_" + PrevSliderLevel.ToString() + ".png");
+		}
 	}
 
 	private void _on_build_tool_pressed() {

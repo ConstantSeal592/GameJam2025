@@ -1,14 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://ba37fc6vr363y"]
 
-[ext_resource type="Texture2D" uid="uid://bpi0hjx8iddie" path="res://art/straight_pipe_1.png" id="1_eiy73"]
 [ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="1_fx3id"]
 [ext_resource type="Script" uid="uid://cawl3w36gbjbk" path="res://GridObjects/PipePiece.cs" id="1_njce1"]
+[ext_resource type="Texture2D" uid="uid://jo0q3lskrm6g" path="res://art/straight_pipe_3.png" id="3_f5rt0"]
 [ext_resource type="Texture2D" uid="uid://cdr3gqhc03ojw" path="res://art/straight_pipe_holo.png" id="4_w2v66"]
 
 [node name="straight_pipe" type="Node2D" groups=["Cell", "Pipe"]]
 script = ExtResource("1_njce1")
-MaxCapacity = 10
-Cost = 5
+MaxCapacity = 30
+Cost = 50
 
 [node name="ground" parent="." instance=ExtResource("1_fx3id")]
 
@@ -18,7 +18,7 @@ offset_top = -25.0
 offset_right = 25.0
 offset_bottom = 25.0
 mouse_filter = 2
-texture = ExtResource("1_eiy73")
+texture = ExtResource("3_f5rt0")
 
 [node name="In" type="Marker2D" parent="."]
 position = Vector2(50, 0)
