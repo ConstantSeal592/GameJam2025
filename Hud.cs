@@ -61,5 +61,27 @@ public partial class Hud : CanvasLayer
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta) {
 		UpdateMoneyAndSlider();
+
+		if (Input.IsActionJustPressed("hotkey_1")) {
+			_on_build_tool_pressed();
+		}
+		if (Input.IsActionJustPressed("hotkey_2")) {
+			_on_straight_pressed();
+		}
+		if (Input.IsActionJustPressed("hotkey_3")) {
+			_on_bent_pressed();
+		}
+		if (Input.IsActionJustPressed("hotkey_4")) {
+			_on_junc_pressed();
+		}
+		if (Input.IsActionJustPressed("hotkey_6")) {
+			_on_delete_pressed();
+		}
+		if (Input.IsActionJustPressed("level_up")) {
+			GetNode<VSlider>("/root/Main/game_scene/GUI/HUD/border/level_slider").Value++;
+		}
+		if (Input.IsActionJustPressed("level_down")) {
+			GetNode<VSlider>("/root/Main/game_scene/GUI/HUD/border/level_slider").Value--;
+		}
 	}
 }
