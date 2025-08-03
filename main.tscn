@@ -10,11 +10,6 @@
 game_scene = ExtResource("2_h2yge")
 
 [node name="game_scene" parent="." instance=ExtResource("2_h2yge")]
-WinScene = null
-LoseScene = null
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_h2yge")
-volume_db = -22.667
-autoplay = true
-stream_paused = true

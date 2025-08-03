@@ -14,11 +14,13 @@ public partial class GameScene : Node2D
 
 	public int CurrentQuota;
 	public int QuotasAchieved = 0;
+	
+
 	public void NewQuota() {
 		CurrentQuota = Quotas[QuotasAchieved];
 		QuotasAchieved += 1;
 		var grid = GetNode<Grid>("/root/Main/game_scene/world/Grid");
-		grid.ShowTilesInRadius(5*(QuotasAchieved+1));
+		grid.ShowTilesInRadius(5 * (QuotasAchieved + 1));
 	}
 
 
@@ -42,12 +44,14 @@ public partial class GameScene : Node2D
 		}
 
 		if (QuotasAchieved < Quotas.Length - 1) {
-			Win();
+			GetTree().ChangeSceneToPacked(WinScene);
 		}
 
 		foreach (Node node in GetTree().GetNodesInGroup("House")) {
 			if (!node.IsConnected("HouseGameOver", new Callable(this, nameof(Lose)))) {
 				node.Connect("HouseGameOver", new Callable(this, nameof(Lose)));
+
+		
 			}
 		}
 	}
