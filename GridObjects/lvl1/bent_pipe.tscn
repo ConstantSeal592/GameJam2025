@@ -8,7 +8,6 @@
 [node name="bent_pipe" type="Node2D" groups=["Cell", "Pipe"]]
 script = ExtResource("1_4yqjd")
 MaxCapacity = 10
-Cost = 5
 
 [node name="ground" parent="." instance=ExtResource("1_brrdj")]
 
