@@ -35,6 +35,8 @@ public partial class Shop : CanvasLayer
 
 	public int amountBought { get; set; } = 0;
 
+
+	public int temp = 30;
 	private void _on_close_pressed() {
 
 
@@ -63,6 +65,7 @@ public partial class Shop : CanvasLayer
 			Person.Money -= WTP_capacity[capacity_lv];
 			capacity_lv++;
 			GetNode<Grid>("/root/Main/game_scene/world/Grid").UpgradePumpCapacity();
+			temp += 10;
 		}
 
 		if (capacity_lv == WTP_capacity.Length - 1) {
@@ -150,7 +153,7 @@ public partial class Shop : CanvasLayer
 		
         
 		GetNode<Label>("Panel/revenue_label").Text = "Gross revenue: £" + Person.Revenue;
-		GetNode<Label>("Panel/capacity_label").Text = "WTP capacity: " + Person.WaterCapacity + "L";
+		GetNode<Label>("Panel/capacity_label").Text = "WTP capacity: " + temp + "L";
 		GetNode<Label>("Panel/plv_label").Text = "Pipe LV: " + slider.Value;
 		GetNode<Label>("Panel/pcapacity_label").Text = "Pipe capacity: " + Pipe_capacities[(int) slider.Value] + "L";
 		GetNode<Label>("Panel/circulation_label").Text = "Water Circulating " +(60+(int)(TopUpVolume * PricePerUnitWater)*amountBought)+ "L" ;

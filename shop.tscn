@@ -160,7 +160,7 @@ grow_vertical = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 38
 theme_override_styles/normal = SubResource("StyleBoxFlat_blqjs")
-text = "WTP speed:  100L/h"
+text = "WTP speed:  30L/s"
 vertical_alignment = 1
 
 [node name="capacity_label" type="Label" parent="Panel"]
