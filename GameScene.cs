@@ -43,7 +43,7 @@ public partial class GameScene : Node2D
 			NewQuota();
 		}
 
-		if (QuotasAchieved < Quotas.Length - 1) {
+		if (QuotasAchieved == Quotas.Length - 1) {
 			GetTree().ChangeSceneToPacked(WinScene);
 		}
 

@@ -13,3 +13,4 @@ game_scene = ExtResource("2_h2yge")
 
 [node name="music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_h2yge")
+autoplay = true
