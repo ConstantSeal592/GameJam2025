@@ -96,7 +96,7 @@ public partial class Grid : Node2D {
         return GetCellAtCoords(newX, newY);
     }
 
-    public bool CanPlayerAfford(int x, int y ,PackedScene tileType) {
+    public bool CanPlayerAfford(int x, int y, PackedScene tileType) {
         var cell = tileType.Instantiate<PipePiece>();
 
         int cost = cell.Cost;
@@ -117,13 +117,13 @@ public partial class Grid : Node2D {
         }
 
         if (plr.Money >= cost) {
-                plr.Money -= cost;
-                return true;
-            }
-            else {
-                GD.Print("Not enough moolah");
-                return false;
-            }
+            plr.Money -= cost;
+            return true;
+        }
+        else {
+            GD.Print("Not enough moolah");
+            return false;
+        }
     }
 
     public void PlaceCellAtCoords(int x, int y, int rotation, bool flip, PackedScene tileType, bool IsHologram) {
@@ -131,7 +131,7 @@ public partial class Grid : Node2D {
         if (x < 0 || x >= XGridSize || y < 0 || y >= YGridSize) {
             return;
         }
-        
+
         if (IsHologram == false) {
             var prev = GetCellAtCoords(x, y);
             if (prev != null) {
@@ -388,13 +388,21 @@ public partial class Grid : Node2D {
         }
     }
 
+    public bool IsStone(int x, int y) {
+        var cell = GetCellAtCoords(x, y);
+        if (cell != null) {
+            return !cell.IsInGroup("Stone");
+        }
+        return true;
+    }
+
     public void BuildPipePath(int startX, int startY, int endX, int endY, bool IsHologram) {     //lvl needs adding
         int cost = 0;
         var straight = straight_pipe.Instantiate<PipePiece>();
         var bent = bent_pipe.Instantiate<PipePiece>();
 
         cost += straight.Cost * (int)MathF.Max(Mathf.Abs(startX - endX) + ((startY == endY) ? 1 : 0), 0);
-        cost += straight.Cost * (int)Mathf.Max(Mathf.Abs(startY - endY) + ((startX == endX) ? 1 :0), 0);
+        cost += straight.Cost * (int)Mathf.Max(Mathf.Abs(startY - endY) + ((startX == endX) ? 1 : 0), 0);
         cost += (startX == endX || startY == endY) ? 0 : bent.Cost;
 
 
@@ -413,13 +421,19 @@ public partial class Grid : Node2D {
         if (MathF.Abs(startX - endX) > MathF.Abs(startY - endY)) {
             if (startX != endX) {
                 for (int x = Mathf.Min(startX, endX); x <= MathF.Max(startX, endX); x++) {
-                    PlaceCellAtCoords(x, startY, (endX < startX) ? 0 : 180, false, straight_pipe, IsHologram);
+                    if (IsStone(x, startY)) {
+                        PlaceCellAtCoords(x, startY, (endX < startX) ? 0 : 180, false, straight_pipe, IsHologram);
+                    }
+                    else { return; }
                 }
             }
 
             if (startY != endY) {
                 for (int y = Mathf.Min(startY, endY); y <= Mathf.Max(startY, endY); y++) {
-                    PlaceCellAtCoords(endX, y, (endY < startY) ? 90 : 270, false, straight_pipe, IsHologram);
+                    if (IsStone(endX, y)) {
+                        PlaceCellAtCoords(endX, y, (endY < startY) ? 90 : 270, false, straight_pipe, IsHologram);
+                    }
+                    else { return; }
                 }
             }
 
@@ -443,13 +457,19 @@ public partial class Grid : Node2D {
         else {
             if (startY != endY) {
                 for (int y = Mathf.Min(startY, endY); y <= Mathf.Max(startY, endY); y++) {
-                    PlaceCellAtCoords(startX, y, (endY < startY) ? 90 : 270, false, straight_pipe, IsHologram);
+                    if (IsStone(startX, y)) {
+                        PlaceCellAtCoords(startX, y, (endY < startY) ? 90 : 270, false, straight_pipe, IsHologram);
+                    }
+                    else { return; }
                 }
             }
 
             if (startX != endX) {
                 for (int x = Mathf.Min(startX, endX); x <= MathF.Max(startX, endX); x++) {
-                    PlaceCellAtCoords(x, endY, (endX < startX) ? 0 : 180, false, straight_pipe, IsHologram);
+                    if (IsStone(x, endY)) {
+                        PlaceCellAtCoords(x, endY, (endX < startX) ? 0 : 180, false, straight_pipe, IsHologram);
+                    }
+                    else { return; }
                 }
             }
 

@@ -37,21 +37,17 @@ public partial class GameScene : Node2D
 	public override void _Process(double delta) {
 		var Person = GetNode<Person>("/root/Main/game_scene/Person");
 
-
-
 		if (Person.Revenue > CurrentQuota && QuotasAchieved < Quotas.Length - 1) {
 			NewQuota();
 		}
 
-		if (QuotasAchieved < Quotas.Length - 1) {
+		if (QuotasAchieved == Quotas.Length) {
 			GetTree().ChangeSceneToPacked(WinScene);
 		}
 
 		foreach (Node node in GetTree().GetNodesInGroup("House")) {
 			if (!node.IsConnected("HouseGameOver", new Callable(this, nameof(Lose)))) {
-				node.Connect("HouseGameOver", new Callable(this, nameof(Lose)));
-
-		
+				node.Connect("HouseGameOver", new Callable(this, nameof(Lose)));		
 			}
 		}
 	}
