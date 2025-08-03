@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfvrkq2o3oybo"]
+[gd_scene load_steps=7 format=3 uid="uid://cfvrkq2o3oybo"]
 
+[ext_resource type="Script" uid="uid://c378twkqpaibf" path="res://Win.cs" id="1_u4bre"]
 [ext_resource type="Texture2D" uid="uid://pfnl2edfq8gj" path="res://art/download.jpeg" id="1_yblwc"]
 [ext_resource type="FontFile" uid="uid://b13nthgt0f58e" path="res://art/kenvector_future.ttf" id="2_u4bre"]
-[ext_resource type="Theme" uid="uid://cwfysqqklkevc" path="res://art/kenneyUI-green.tres" id="3_4x0fk"]
 [ext_resource type="Theme" uid="uid://dspaqfvd2rase" path="res://art/kenneyUI-red.tres" id="4_8e1nn"]
+[ext_resource type="Texture2D" uid="uid://bp26wbsjehi40" path="res://art/download (1).jpeg" id="5_4x0fk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uxvcs"]
 bg_color = Color(0.239216, 0.25098, 0.25098, 0.662745)
@@ -12,7 +13,8 @@ border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
 
-[node name="Win" type="Node"]
+[node name="Win" type="Node2D"]
+script = ExtResource("1_u4bre")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 modulate = Color(0.180392, 0.180392, 0.176471, 1)
@@ -22,30 +24,43 @@ texture = ExtResource("1_yblwc")
 expand_mode = 1
 
 [node name="Label" type="Label" parent="."]
-offset_left = 506.0
-offset_top = 43.0
-offset_right = 1347.0
-offset_bottom = 387.0
+offset_left = 71.0
+offset_top = 54.0
+offset_right = 1772.0
+offset_bottom = 304.0
 theme_override_fonts/font = ExtResource("2_u4bre")
-theme_override_font_sizes/font_size = 100
+theme_override_font_sizes/font_size = 65
 theme_override_styles/normal = SubResource("StyleBoxFlat_uxvcs")
-text = "           
-      Pump It!"
+text = " CONGRATS
+ YOU BEAT Pump It!
+Not enough time to buy you a trophy"
 
-[node name="play" type="Button" parent="."]
-offset_left = 643.0
-offset_top = 479.0
-offset_right = 1223.0
-offset_bottom = 652.0
-theme = ExtResource("3_4x0fk")
-theme_override_font_sizes/font_size = 60
-text = "PLAY"
+[node name="Label" type="Label" parent="Label"]
+offset_top = 287.0
+offset_right = 1090.0
+offset_bottom = 558.0
+theme_override_fonts/font = ExtResource("2_u4bre")
+theme_override_font_sizes/font_size = 65
+theme_override_styles/normal = SubResource("StyleBoxFlat_uxvcs")
+text = "or to add a proper win screen, heres a 
+cute picture of an animal though"
+autowrap_mode = 3
 
 [node name="leave" type="Button" parent="."]
-offset_left = 641.0
-offset_top = 727.0
-offset_right = 1221.0
-offset_bottom = 900.0
+offset_left = 44.0
+offset_top = 878.0
+offset_right = 624.0
+offset_bottom = 1051.0
 theme = ExtResource("4_8e1nn")
 theme_override_font_sizes/font_size = 60
 text = "LEAVE"
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+offset_left = 1227.0
+offset_top = 392.0
+offset_right = 1843.0
+offset_bottom = 918.0
+texture = ExtResource("5_4x0fk")
+expand_mode = 1
+
+[connection signal="pressed" from="leave" to="." method="_on_leave_pressed"]

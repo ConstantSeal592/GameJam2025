@@ -53,3 +53,4 @@ theme_override_font_sizes/font_size = 60
 text = "LEAVE"
 
 [connection signal="pressed" from="play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="leave" to="." method="_on_leave_pressed"]
