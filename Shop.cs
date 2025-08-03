@@ -33,6 +33,7 @@ public partial class Shop : CanvasLayer
 	[Export]
 	public float PricePerUnitWater { get; set; }
 
+	public int amountBought { get; set; } = 0;
 
 	private void _on_close_pressed() {
 
@@ -116,6 +117,7 @@ public partial class Shop : CanvasLayer
 		if (Person.Money >= TopUpVolume * PricePerUnitWater) {
 			Grid.SpawnWater(TopUpVolume);
 			Person.Money -= (int)(TopUpVolume * PricePerUnitWater);
+			amountBought += 1;
 		}
 		
 	}
@@ -126,19 +128,7 @@ public partial class Shop : CanvasLayer
 
 
 	public void UpdateCostsAndStats() {
-		if (speed_max) {
-			GetNode<Button>("Panel/speed_upg").Text = " upgrade WTP  speed\nMAX";
-		}
-		else {
-			GetNode<Button>("Panel/speed_upg").Text = " upgrade WTP  speed\n£ " + WTP_speed[speed_lv];
-		}
 
-		if (efficiency_max) {
-			GetNode<Button>("Panel/efficiency_upg").Text = " upgrade WTP efficiency\nMAX";
-		}
-		else {
-			GetNode<Button>("Panel/efficiency_upg").Text = " upgrade WTP efficiency\n£ " + WTP_efficiency[efficiency_lv];
-		}
 
 		if (pipe_max) {
 			GetNode<Button>("Panel/pipe_upg").Text = " upgrade pipe\nMAX";
@@ -157,16 +147,13 @@ public partial class Shop : CanvasLayer
 
 
 		var slider = GetNode<VSlider>("/root/Main/game_scene/GUI/HUD/border/level_slider");
-		 
-
+		
+        
 		GetNode<Label>("Panel/revenue_label").Text = "Gross revenue: £" + Person.Revenue;
-		GetNode<Label>("Panel/speed_label").Text = "WTP speed: " + "None" + "L/h";
 		GetNode<Label>("Panel/capacity_label").Text = "WTP capacity: " + Person.WaterCapacity + "L";
-		GetNode<Label>("Panel/efficiency_label").Text = "Water efficiency: " + Person.WaterEfficiency * 100 + "%";
 		GetNode<Label>("Panel/plv_label").Text = "Pipe LV: " + slider.Value;
-		GetNode<Label>("Panel/pspeed_label").Text = "Pipe speed: " + "None" + "L/h";
 		GetNode<Label>("Panel/pcapacity_label").Text = "Pipe capacity: " + Pipe_capacities[(int) slider.Value] + "L";
-		GetNode<Label>("Panel/circulation_label").Text = "Buy 15L of water";// +Mathf.Round(Person.Water)+ "L" ;
+		GetNode<Label>("Panel/circulation_label").Text = "Water Circulating " +(60+(int)(TopUpVolume * PricePerUnitWater)*amountBought)+ "L" ;
 		
 
 	}

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://0n5lqn5ai7du"]
+[gd_scene load_steps=10 format=3 uid="uid://0n5lqn5ai7du"]
 
 [ext_resource type="Script" uid="uid://cr8qtl2424upb" path="res://Person.cs" id="1_mixcd"]
 [ext_resource type="Script" uid="uid://d3lilcc4okkyk" path="res://GameScene.cs" id="1_mj2jn"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://b0opfsesci17a" path="res://grid.tscn" id="4_mixcd"]
 [ext_resource type="Script" uid="uid://mw1rlaqft5j2" path="res://World.cs" id="5_kdryc"]
 [ext_resource type="PackedScene" uid="uid://cfvrkq2o3oybo" path="res://win.tscn" id="8_e35lh"]
+[ext_resource type="PackedScene" uid="uid://c4y6fyaj2gihw" path="res://lose.tscn" id="9_udeyl"]
 
 [node name="game_scene" type="Node2D"]
 visible = false
@@ -26,7 +27,6 @@ stretch_mode = 1
 [node name="GUI" type="Node" parent="."]
 
 [node name="Shop" parent="GUI" instance=ExtResource("2_po0ka")]
-visible = false
 
 [node name="HUD" parent="GUI" instance=ExtResource("2_v1wow")]
 visible = false
@@ -42,3 +42,6 @@ Speed = 5
 [node name="Grid" parent="world" instance=ExtResource("4_mixcd")]
 
 [node name="Win" parent="." instance=ExtResource("8_e35lh")]
+visible = false
+
+[node name="Lose" parent="." instance=ExtResource("9_udeyl")]

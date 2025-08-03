@@ -94,38 +94,6 @@ text = " upgrade WTP Capacity
 (£ )"
 autowrap_mode = 3
 
-[node name="speed_upg" type="Button" parent="Panel"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 712.0
-offset_top = -315.0
-offset_right = 879.0
-offset_bottom = -198.0
-grow_vertical = 0
-theme = ExtResource("2_e7rdd")
-disabled = true
-text = " upgrade WTP  speed
-(£ )"
-autowrap_mode = 3
-
-[node name="efficiency_upg" type="Button" parent="Panel"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 937.0
-offset_top = -315.0
-offset_right = 1104.0
-offset_bottom = -198.0
-grow_vertical = 0
-theme = ExtResource("2_e7rdd")
-disabled = true
-text = " upgrade WTP efficiency 
-(£ )"
-autowrap_mode = 3
-
 [node name="top_up" type="Button" parent="Panel"]
 layout_mode = 1
 anchors_preset = 2
@@ -137,7 +105,7 @@ offset_right = 1760.0
 offset_bottom = -27.0
 grow_vertical = 0
 theme = ExtResource("2_blqjs")
-text = "top up water 
+text = "purchase 15 units of  water for the pump
 £"
 autowrap_mode = 3
 
@@ -195,26 +163,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_blqjs")
 text = "WTP speed:  100L/h"
 vertical_alignment = 1
 
-[node name="efficiency_label" type="Label" parent="Panel"]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -1827.0
-offset_top = -444.0
-offset_right = -1360.0
-offset_bottom = -371.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 38
-theme_override_styles/normal = SubResource("StyleBoxFlat_blqjs")
-text = "Water efficiency: 80%"
-vertical_alignment = 1
-
 [node name="capacity_label" type="Label" parent="Panel"]
 texture_filter = 1
 layout_mode = 1
@@ -255,26 +203,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_blqjs")
 text = "Pipe LV: 1"
 vertical_alignment = 1
 
-[node name="pspeed_label" type="Label" parent="Panel"]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -1827.0
-offset_top = -213.0
-offset_right = -1360.0
-offset_bottom = -140.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 38
-theme_override_styles/normal = SubResource("StyleBoxFlat_blqjs")
-text = "Pipe speed: 10L/h"
-vertical_alignment = 1
-
 [node name="pcapacity_label" type="Label" parent="Panel"]
 texture_filter = 1
 layout_mode = 1
@@ -284,9 +212,9 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -1827.0
-offset_top = -114.0
+offset_top = -195.0
 offset_right = -1360.0
-offset_bottom = -41.0
+offset_bottom = -122.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -344,10 +272,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -547.0
-offset_top = -339.0
-offset_right = -97.0
-offset_bottom = -266.0
+offset_left = -580.0
+offset_top = -345.0
+offset_right = -130.0
+offset_bottom = -272.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -358,7 +286,5 @@ vertical_alignment = 1
 
 [connection signal="pressed" from="Panel/pipe_upg" to="." method="_on_pipe_upg_pressed"]
 [connection signal="pressed" from="Panel/capacity_upg" to="." method="_on_capacity_upg_pressed"]
-[connection signal="pressed" from="Panel/speed_upg" to="." method="_on_speed_upg_pressed"]
-[connection signal="pressed" from="Panel/efficiency_upg" to="." method="_on_efficiency_upg_pressed"]
 [connection signal="pressed" from="Panel/top_up" to="." method="_on_top_up_pressed"]
 [connection signal="pressed" from="Panel/close" to="." method="_on_close_pressed"]
