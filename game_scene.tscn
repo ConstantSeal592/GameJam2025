@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://mw1rlaqft5j2" path="res://World.cs" id="5_kdryc"]
 
 [node name="game_scene" type="Node2D"]
+visible = false
 script = ExtResource("1_mj2jn")
 Quotas = PackedInt32Array(120, 240, 480, 960, 10)
 

@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="2_65i6o"]
 [ext_resource type="PackedScene" uid="uid://diwwjstrftcn1" path="res://GridObjects/stone.tscn" id="3_kc0yb"]
 [ext_resource type="PackedScene" uid="uid://ba37fc6vr363y" path="res://GridObjects/lvl1/straight_pipe.tscn" id="3_sle3t"]
-[ext_resource type="PackedScene" uid="uid://dpxc4lb5ysjp6" path="res://GridObjects/lvl2/bent_pipe.tscn" id="4_bghhw"]
+[ext_resource type="PackedScene" uid="uid://dpxc4lb5ysjp6" path="res://GridObjects/lvl1/bent_pipe.tscn" id="4_bghhw"]
 [ext_resource type="PackedScene" uid="uid://cliklr0cike5m" path="res://pipe_info.tscn" id="5_fqc2p"]
 [ext_resource type="PackedScene" uid="uid://dxpwv4wy3xp6f" path="res://GridObjects/main_pump.tscn" id="5_g2qvd"]
 [ext_resource type="PackedScene" uid="uid://cc6m7kmmy0qtt" path="res://GridObjects/lvl1/junc_pipe.tscn" id="5_r8ukp"]
