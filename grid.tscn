@@ -1,13 +1,14 @@
-[gd_scene load_steps=18 format=4 uid="uid://b0opfsesci17a"]
+[gd_scene load_steps=19 format=4 uid="uid://b0opfsesci17a"]
 
 [ext_resource type="Script" uid="uid://b7lcwk7yjnkjv" path="res://Grid.cs" id="1_ebq2e"]
 [ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="2_65i6o"]
-[ext_resource type="PackedScene" uid="uid://ba37fc6vr363y" path="res://GridObjects/lvl2/straight_pipe.tscn" id="3_sle3t"]
-[ext_resource type="PackedScene" uid="uid://dpxc4lb5ysjp6" path="res://GridObjects/lvl1/bent_pipe.tscn" id="4_bghhw"]
+[ext_resource type="PackedScene" uid="uid://diwwjstrftcn1" path="res://GridObjects/stone.tscn" id="3_kc0yb"]
+[ext_resource type="PackedScene" uid="uid://ba37fc6vr363y" path="res://GridObjects/lvl1/straight_pipe.tscn" id="3_sle3t"]
+[ext_resource type="PackedScene" uid="uid://dpxc4lb5ysjp6" path="res://GridObjects/lvl2/bent_pipe.tscn" id="4_bghhw"]
 [ext_resource type="PackedScene" uid="uid://cliklr0cike5m" path="res://pipe_info.tscn" id="5_fqc2p"]
 [ext_resource type="PackedScene" uid="uid://dxpwv4wy3xp6f" path="res://GridObjects/main_pump.tscn" id="5_g2qvd"]
-[ext_resource type="PackedScene" uid="uid://cc6m7kmmy0qtt" path="res://GridObjects/lvl2/junc_pipe.tscn" id="5_r8ukp"]
-[ext_resource type="PackedScene" uid="uid://dq52w23lhyjf5" path="res://GridObjects/House.tscn" id="7_b0p4s"]
+[ext_resource type="PackedScene" uid="uid://cc6m7kmmy0qtt" path="res://GridObjects/lvl1/junc_pipe.tscn" id="5_r8ukp"]
+[ext_resource type="PackedScene" uid="uid://dq52w23lhyjf5" path="res://GridObjects/house.tscn" id="7_b0p4s"]
 [ext_resource type="Texture2D" uid="uid://cd6psejxl6o17" path="res://art/ground.png" id="9_ghb71"]
 [ext_resource type="Texture2D" uid="uid://0u5xslmppxqk" path="res://art/houseicon.png" id="10_kc0yb"]
 [ext_resource type="Texture2D" uid="uid://cgiklywfnlwxn" path="res://art/pumpicon.png" id="11_hsp7l"]
@@ -49,6 +50,7 @@ script = ExtResource("1_ebq2e")
 XGridSize = 50
 YGridSize = 50
 ground = ExtResource("2_65i6o")
+stone = ExtResource("3_kc0yb")
 straight_pipe = ExtResource("3_sle3t")
 bent_pipe = ExtResource("4_bghhw")
 junc_pipe = ExtResource("5_r8ukp")
