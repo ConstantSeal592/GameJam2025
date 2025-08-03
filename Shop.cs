@@ -166,7 +166,7 @@ public partial class Shop : CanvasLayer
 		GetNode<Label>("Panel/plv_label").Text = "Pipe LV: " + slider.Value;
 		GetNode<Label>("Panel/pspeed_label").Text = "Pipe speed: " + "None" + "L/h";
 		GetNode<Label>("Panel/pcapacity_label").Text = "Pipe capacity: " + Pipe_capacities[(int) slider.Value] + "L";
-		GetNode<Label>("Panel/circulation_label").Text = "Water circulating: " +Mathf.Round(Person.Water)+ "L" ;
+		GetNode<Label>("Panel/circulation_label").Text = "Buy 15L of water";// +Mathf.Round(Person.Water)+ "L" ;
 		
 
 	}

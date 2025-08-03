@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class MenuScene : Node
+public partial class MenuScene : Node2D
 {
 	[Export]
 	public PackedScene game_scene { get; set; }
@@ -12,12 +12,14 @@ public partial class MenuScene : Node
 		var game = GetNode<Node2D>("/root/Main/game_scene");
 		game.Show();
 		var menu = GetNode<Node2D>("/root/Main/menu_scene");
-		menu.Hide();
+		Hide();
+		menu.QueueFree();
+
 
 	}
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
-
+		GetNode<Panel>("/root/Main/game_scene/GUI/Shop/Panel").Hide();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://8lk45lfmiabi"]
 
-[ext_resource type="Texture2D" uid="uid://blq3b0dsjnb8f" path="res://art/bg.jpg" id="1_mfwt2"]
 [ext_resource type="Script" uid="uid://7v4b8bxd88uu" path="res://MenuScene.cs" id="1_n6o5i"]
 [ext_resource type="FontFile" uid="uid://b13nthgt0f58e" path="res://art/kenvector_future.ttf" id="2_i4wrx"]
+[ext_resource type="Texture2D" uid="uid://pfnl2edfq8gj" path="res://art/download.jpeg" id="2_n6o5i"]
 [ext_resource type="Theme" uid="uid://cwfysqqklkevc" path="res://art/kenneyUI-green.tres" id="3_n6o5i"]
 [ext_resource type="Theme" uid="uid://dspaqfvd2rase" path="res://art/kenneyUI-red.tres" id="4_i4wrx"]
 
@@ -20,7 +20,7 @@ script = ExtResource("1_n6o5i")
 modulate = Color(0.180392, 0.180392, 0.176471, 1)
 offset_right = 1920.0
 offset_bottom = 1081.0
-texture = ExtResource("1_mfwt2")
+texture = ExtResource("2_n6o5i")
 expand_mode = 1
 
 [node name="Label" type="Label" parent="."]
