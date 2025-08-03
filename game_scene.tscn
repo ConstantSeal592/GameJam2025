@@ -7,15 +7,18 @@
 [ext_resource type="PackedScene" uid="uid://b0opfsesci17a" path="res://grid.tscn" id="4_mixcd"]
 [ext_resource type="Script" uid="uid://mw1rlaqft5j2" path="res://World.cs" id="5_kdryc"]
 
-[node name="game_scene" type="Node"]
+[node name="game_scene" type="Node2D"]
+visible = false
 script = ExtResource("1_mj2jn")
 Quotas = PackedInt32Array(120, 240, 480, 960, 10)
 
 [node name="GUI" type="Node" parent="."]
 
 [node name="Shop" parent="GUI" instance=ExtResource("2_po0ka")]
+visible = false
 
 [node name="HUD" parent="GUI" instance=ExtResource("2_v1wow")]
+visible = false
 
 [node name="Person" type="Node" parent="."]
 script = ExtResource("1_mixcd")

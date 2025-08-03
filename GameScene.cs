@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class GameScene : Node
+public partial class GameScene : Node2D
 {
 	// Called when the node enters the scene tree for the first time.
 	[Export]
