@@ -34,7 +34,7 @@ WTP_capacity = PackedInt32Array(200, 250, 300, 500, 750, 1000)
 Pipe_upgrade = PackedInt32Array(0, 200, 300)
 Pipe_capacities = PackedInt32Array(10, 20, 30)
 TopUpVolume = 30
-PricePerUnitWater = 5.0
+PricePerUnitWater = 3.0
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = 5

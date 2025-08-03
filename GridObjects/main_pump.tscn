@@ -9,7 +9,7 @@
 script = ExtResource("1_e2jbf")
 ground = ExtResource("2_bu3hv")
 MaxCapacity = 30
-Capacity = 60
+Capacity = 120
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = 1
