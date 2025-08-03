@@ -60,6 +60,7 @@ WaterUpdateIncrement = 3.0
 WaterMaxUpdateTime = 10.0
 
 [node name="pipe_info" parent="." instance=ExtResource("5_fqc2p")]
+visible = false
 z_index = 10
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]

@@ -77,5 +77,11 @@ public partial class Hud : CanvasLayer
 		if (Input.IsActionJustPressed("hotkey_6")) {
 			_on_delete_pressed();
 		}
+		if (Input.IsActionJustPressed("level_up")) {
+			GetNode<VSlider>("/root/Main/game_scene/GUI/HUD/border/level_slider").Value++;
+		}
+		if (Input.IsActionJustPressed("level_down")) {
+			GetNode<VSlider>("/root/Main/game_scene/GUI/HUD/border/level_slider").Value--;
+		}
 	}
 }
