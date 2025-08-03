@@ -13,7 +13,7 @@
 [node name="game_scene" type="Node2D"]
 visible = false
 script = ExtResource("1_mj2jn")
-Quotas = PackedInt32Array(200, 500, 1000, 2000, 10)
+Quotas = PackedInt32Array(150, 500, 1000, 2000, 10)
 WinScene = ExtResource("2_udeyl")
 LoseScene = ExtResource("3_miq82")
 
