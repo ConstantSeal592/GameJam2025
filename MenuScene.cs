@@ -11,6 +11,7 @@ public partial class MenuScene : Node2D
 		hud.Show();
 		var game = GetNode<Node2D>("/root/Main/game_scene");
 		game.Show();
+		game.GetNode<Grid>("world/Grid").Start();
 		var menu = GetNode<Node2D>("/root/Main/menu_scene");
 		Hide();
 		menu.QueueFree();
@@ -25,7 +26,7 @@ public partial class MenuScene : Node2D
 	public override void _Ready() {
 
 		GetNode<Panel>("/root/Main/game_scene/GUI/Shop/Panel").Hide();
-		GetNode<AudioStreamPlayer>("music").Play();
+		// GetNode<AudioStreamPlayer>("music").Play();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -14,6 +14,7 @@ border_width_right = 10
 border_width_bottom = 10
 
 [node name="Win" type="Node2D"]
+visible = false
 script = ExtResource("1_u4bre")
 
 [node name="TextureRect" type="TextureRect" parent="."]

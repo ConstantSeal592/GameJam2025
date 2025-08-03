@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cliklr0cike5m" path="res://pipe_info.tscn" id="5_fqc2p"]
 [ext_resource type="PackedScene" uid="uid://dxpwv4wy3xp6f" path="res://GridObjects/main_pump.tscn" id="5_g2qvd"]
 [ext_resource type="PackedScene" uid="uid://cc6m7kmmy0qtt" path="res://GridObjects/lvl1/junc_pipe.tscn" id="5_r8ukp"]
-[ext_resource type="PackedScene" uid="uid://dq52w23lhyjf5" path="res://GridObjects/House.tscn" id="7_b0p4s"]
+[ext_resource type="PackedScene" uid="uid://c2ht5f4hfpnnr" path="res://GridObjects/House.tscn" id="7_b0p4s"]
 [ext_resource type="Texture2D" uid="uid://cd6psejxl6o17" path="res://art/ground.png" id="9_ghb71"]
 [ext_resource type="Texture2D" uid="uid://0u5xslmppxqk" path="res://art/houseicon.png" id="10_kc0yb"]
 [ext_resource type="Texture2D" uid="uid://cgiklywfnlwxn" path="res://art/pumpicon.png" id="11_hsp7l"]

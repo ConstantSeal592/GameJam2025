@@ -552,6 +552,10 @@ public partial class Grid : Node2D {
         tilemap.Free();
     }
 
+    public void Start() {
+        ShowTilesInRadius(10);
+    }
+
     public override void _Ready() {
         GetParent<World>().Position = new Vector2(XGridSize * CellSize - GetViewportRect().Size.X, YGridSize * CellSize - GetViewportRect().Size.Y) * -0.5f;
 
@@ -592,7 +596,6 @@ public partial class Grid : Node2D {
         coolDown = WaterUpdateIncrement;
 
         HideAllTiles();
-        ShowTilesInRadius(10);
     }
 
     public override void _Process(double delta) {
