@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://c4y6fyaj2gihw"]
+
+[ext_resource type="Script" uid="uid://dj6yon4x058m0" path="res://Lose.cs" id="1_xrsfq"]
+[ext_resource type="FontFile" uid="uid://b13nthgt0f58e" path="res://art/kenvector_future.ttf" id="2_bpxic"]
+[ext_resource type="Texture2D" uid="uid://bjf7ftbk8fm82" path="res://art/seamless-wood-texture-5-900x900.webp" id="2_s23sx"]
+[ext_resource type="Theme" uid="uid://dspaqfvd2rase" path="res://art/kenneyUI-red.tres" id="3_s23sx"]
+
+[node name="Lose" type="Node2D"]
+script = ExtResource("1_xrsfq")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0.180392, 0.180392, 0.176471, 1)
+offset_right = 1920.0
+offset_bottom = 1081.0
+texture = ExtResource("2_s23sx")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="."]
+offset_left = 489.0
+offset_top = 149.0
+offset_right = 2190.0
+offset_bottom = 399.0
+theme_override_fonts/font = ExtResource("2_bpxic")
+theme_override_font_sizes/font_size = 150
+text = "YOU LOST"
+
+[node name="leave" type="Button" parent="."]
+offset_left = 176.0
+offset_top = 509.0
+offset_right = 756.0
+offset_bottom = 682.0
+theme = ExtResource("3_s23sx")
+theme_override_font_sizes/font_size = 60
+text = "LEAVE"
+
+[node name="try again" type="Button" parent="."]
+offset_left = 1090.0
+offset_top = 509.0
+offset_right = 1670.0
+offset_bottom = 682.0
+theme = ExtResource("3_s23sx")
+theme_override_font_sizes/font_size = 60
+text = "Try again"
+
+[connection signal="pressed" from="leave" to="." method="_on_leave_pressed"]
+[connection signal="pressed" from="try again" to="." method="_on_try_again_pressed"]

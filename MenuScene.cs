@@ -17,6 +17,10 @@ public partial class MenuScene : Node2D
 
 
 	}
+
+	public void _on_leave_pressed() {
+		GetTree().Quit();
+	}
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
 		GetNode<Panel>("/root/Main/game_scene/GUI/Shop/Panel").Hide();
