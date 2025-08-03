@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cfvrkq2o3oybo"]
+[gd_scene load_steps=7 format=3 uid="uid://eyxevf1wcjhx"]
 
 [ext_resource type="Script" uid="uid://c378twkqpaibf" path="res://Win.cs" id="1_u4bre"]
 [ext_resource type="Texture2D" uid="uid://pfnl2edfq8gj" path="res://art/download.jpeg" id="1_yblwc"]
@@ -36,6 +36,7 @@ text = " CONGRATS
 Not enough time to buy you a trophy"
 
 [node name="Label" type="Label" parent="Label"]
+layout_mode = 0
 offset_top = 287.0
 offset_right = 1090.0
 offset_bottom = 558.0

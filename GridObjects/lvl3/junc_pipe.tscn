@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cc6m7kmmy0qtt"]
+[gd_scene load_steps=5 format=3 uid="uid://t1abovsgflte"]
 
 [ext_resource type="Script" uid="uid://cawl3w36gbjbk" path="res://GridObjects/PipePiece.cs" id="1_i7voi"]
 [ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="1_tag0i"]
@@ -8,7 +8,7 @@
 [node name="junc_pipe" type="Node2D" groups=["Cell", "Pipe"]]
 script = ExtResource("1_i7voi")
 MaxCapacity = 30
-Cost = 150
+Cost = 75
 
 [node name="ground" parent="." instance=ExtResource("1_tag0i")]
 

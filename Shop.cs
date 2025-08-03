@@ -65,7 +65,7 @@ public partial class Shop : CanvasLayer
 			GetNode<Grid>("/root/Main/game_scene/world/Grid").UpgradePumpCapacity();
 		}
 
-		if (capacity_lv == WTP_capacity.Length) {
+		if (capacity_lv == WTP_capacity.Length - 1) {
 			capacity_max = true;
 		}
 

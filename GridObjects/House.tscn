@@ -8,10 +8,10 @@
 
 [node name="house" type="Node2D" groups=["Cell", "House", "Structure"]]
 script = ExtResource("1_3tbpj")
-MaxCapacity = 15
-BillsMultiplier = 10.0
-WaterUsedPerUpdate = 3
-MaxTimeWithoutWater = 30.0
+MaxCapacity = 20
+BillsMultiplier = 2.0
+WaterUsedPerUpdate = 2
+MaxTimeWithoutWater = 120.0
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = 1
@@ -52,6 +52,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="warning" type="TextureRect" parent="."]
+visible = false
 z_index = 3
 offset_top = -40.0
 offset_right = 50.0

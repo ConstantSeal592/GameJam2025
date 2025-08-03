@@ -6,7 +6,6 @@
 [ext_resource type="Theme" uid="uid://dspaqfvd2rase" path="res://art/kenneyUI-red.tres" id="3_s23sx"]
 
 [node name="Lose" type="Node2D"]
-visible = false
 script = ExtResource("1_xrsfq")
 
 [node name="TextureRect" type="TextureRect" parent="."]

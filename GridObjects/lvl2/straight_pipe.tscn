@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://ba37fc6vr363y"]
+[gd_scene load_steps=5 format=3 uid="uid://c0sehcl062cv5"]
 
 [ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="1_fx3id"]
 [ext_resource type="Script" uid="uid://cawl3w36gbjbk" path="res://GridObjects/PipePiece.cs" id="1_njce1"]

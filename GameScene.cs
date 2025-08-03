@@ -7,6 +7,11 @@ public partial class GameScene : Node2D
 	[Export]
 	int[] Quotas { get; set; } = new int[5];
 
+	[Export]
+	public PackedScene WinScene;
+	[Export]
+	public PackedScene LoseScene;
+
 	public int CurrentQuota;
 	public int QuotasAchieved = 0;
 	public void NewQuota() {
@@ -19,7 +24,7 @@ public partial class GameScene : Node2D
 
 
 	public void Lose() {
-		GD.Print("LOST!!");
+		GetTree().ChangeSceneToPacked(LoseScene);
 	}
 	public void Win(){}
 	public override void _Ready() {
@@ -38,10 +43,6 @@ public partial class GameScene : Node2D
 
 		if (QuotasAchieved < Quotas.Length - 1) {
 			Win();
-		}
-
-		if (Person.Water / Person.WaterCapacity < 0.01) {
-			Lose();
 		}
 
 		foreach (Node node in GetTree().GetNodesInGroup("House")) {
