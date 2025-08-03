@@ -127,6 +127,10 @@ public partial class Grid : Node2D {
     }
 
     public void PlaceCellAtCoords(int x, int y, int rotation, bool flip, PackedScene tileType, bool IsHologram) {
+        if (x < 0 || x >= XGridSize || y < 0 || y >= YGridSize) {
+            return;
+        }
+
         if (IsHologram == false) {
             var prev = GetCellAtCoords(x, y);
             if (prev != null) {

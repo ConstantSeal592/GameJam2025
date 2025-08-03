@@ -15,10 +15,12 @@ public partial class GameScene : Node2D
 		var grid = GetNode<Grid>("/root/Main/game_scene/world/Grid");
 		grid.ShowTilesInRadius(5*(QuotasAchieved+1));
 	}
-	
 
 
-	public void Lose(){}
+
+	public void Lose() {
+		GD.Print("LOST!!");
+	}
 	public void Win(){}
 	public override void _Ready() {
 		CurrentQuota = Quotas[QuotasAchieved];
@@ -40,6 +42,12 @@ public partial class GameScene : Node2D
 
 		if (Person.Water / Person.WaterCapacity < 0.01) {
 			Lose();
+		}
+
+		foreach (Node node in GetTree().GetNodesInGroup("House")) {
+			if (!node.IsConnected("HouseGameOver", new Callable(this, nameof(Lose)))) {
+				node.Connect("HouseGameOver", new Callable(this, nameof(Lose)));
+			}
 		}
 	}
 }

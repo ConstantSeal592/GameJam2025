@@ -33,6 +33,8 @@ public partial class MainPump : Node2D, Structure {
     }
 
     public override void _Ready() {
+        GetNode<PipePiece>("In").IsPureWater = false;
+
         for (int i = 2; i < childTiles.GetLength(0); i++) {
             var tile = ground.Instantiate<Node2D>();
 

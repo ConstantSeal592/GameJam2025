@@ -16,6 +16,12 @@ public partial class House : Node2D, Structure {
 	[Export]
 	public int WaterUsedPerUpdate { get; set; }
 
+	[Export]
+	public double MaxTimeWithoutWater { get; set; }
+
+	[Signal]
+	public delegate void HouseGameOverEventHandler();
+
 	public int[,] childTiles { get; set; } = { { -1, 0 }, { 0, 0 }, { 1, 0 } };
 
 	public int CellSize = 50;
@@ -52,9 +58,26 @@ public partial class House : Node2D, Structure {
 		GetNode<Label>("Capacity").Text = Capacity.ToString();
 	}
 
-	public void CheckWaterNotSupplied() {
-		if (PureCapacity == 0) {
+	public double TimeWithoutWater = 0d;
+
+	public void CheckWaterNotSupplied(double delta) {
+		var warning = GetNode<TextureRect>("warning");
+
+		if (PureCapacity == 0 && Visible == true) {
+			warning.Show();
+			warning.Modulate = new Color(1, 1, 1);
 			//GD.Print("SAHRA MOMENT WAYYYYYYYYYYYYYYYYYYYYY!!!!!!!!!!!");
+			TimeWithoutWater += delta;
+			if (TimeWithoutWater > 0.75d * MaxTimeWithoutWater) {
+				warning.Modulate = new Color(1, 0, 1);
+			}
+			if (TimeWithoutWater > MaxTimeWithoutWater) {
+				EmitSignal(SignalName.HouseGameOver);
+			}
+		}
+		else {
+			warning.Hide();
+			TimeWithoutWater = 0;
 		}
 	}
 
@@ -65,7 +88,7 @@ public partial class House : Node2D, Structure {
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta) {
-		CheckWaterNotSupplied();
+		CheckWaterNotSupplied(delta);
 	}
 }
 

@@ -1,15 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://dq52w23lhyjf5"]
+[gd_scene load_steps=6 format=3 uid="uid://dq52w23lhyjf5"]
 
 [ext_resource type="Script" uid="uid://fhyrcq2ojv5a" path="res://GridObjects/House.cs" id="1_3tbpj"]
 [ext_resource type="Texture2D" uid="uid://das62pvegsyji" path="res://art/house.png" id="3_8v5ii"]
 [ext_resource type="PackedScene" uid="uid://dgo8llxbc8x1m" path="res://GridObjects/ground.tscn" id="4_8v5ii"]
-[ext_resource type="PackedScene" uid="uid://cc6m7kmmy0qtt" path="res://GridObjects/lvl2/junc_pipe.tscn" id="4_gq5ep"]
+[ext_resource type="PackedScene" uid="uid://cc6m7kmmy0qtt" path="res://GridObjects/lvl1/junc_pipe.tscn" id="4_gq5ep"]
+[ext_resource type="Texture2D" uid="uid://b3xkswktak8m4" path="res://art/warning.png" id="5_gq5ep"]
 
-[node name="house" type="Node2D" groups=["Cell", "Structure"]]
+[node name="house" type="Node2D" groups=["Cell", "House", "Structure"]]
 script = ExtResource("1_3tbpj")
 MaxCapacity = 15
 BillsMultiplier = 10.0
 WaterUsedPerUpdate = 3
+MaxTimeWithoutWater = 30.0
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = 1
@@ -48,3 +50,11 @@ offset_bottom = 28.0
 text = "15"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="warning" type="TextureRect" parent="."]
+z_index = 3
+offset_top = -40.0
+offset_right = 50.0
+offset_bottom = 10.0
+scale = Vector2(1.00318, 1)
+texture = ExtResource("5_gq5ep")
